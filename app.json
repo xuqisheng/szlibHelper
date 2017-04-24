@@ -1,0 +1,32 @@
+{
+  "pages":[
+    "pages/login/login",
+    "pages/loanInfo/loanInfo",
+    "pages/mine/mine"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar":{
+    "color": "#9E9E9E", 
+    "selectedColor": "darkslateblue",
+    "backgroundColor": "#fff",
+    "borderStyle": "#ccc",
+    "font-size": "20px",
+    "list": [{
+      "pagePath": "pages/loanInfo/loanInfo",
+      "iconPath": "wechat_gray.jpg",
+      "selectedIconPath": "wechat_new.jpg",
+      "text": "借阅"
+    }, {
+      "pagePath": "pages/mine/mine",
+      "iconPath": "wechat_gray.jpg",
+      "selectedIconPath": "wechat_new.jpg",
+      "text": "我的"
+    }
+    ]
+  }
+}

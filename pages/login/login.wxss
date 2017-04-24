@@ -1,0 +1,58 @@
+
+/*
+.inputer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+}*/
+.logo_frame {
+  width: 375px;
+  height: 100px; 
+  background: snow;
+}
+
+.mg_left {
+  margin-left: 88px;
+}
+
+.flex_wrap {
+  display:flex;
+  margin-top: 240px;
+}
+.image_frame {
+  height: 25px;
+  width: 26px;
+  margin-top: 0.5px;
+  margin-left: 16px;
+}
+
+.account_inputer {
+  width: 200px;
+  border: thin solid black;
+  margin-bottom: 10px;
+  font-size: 14px;
+  justify-content: center;
+}
+.password_inputer {
+  width: 200px;
+  border: thin solid black;
+  margin-bottom: 10px;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.checkbox_icon {
+  height: 10px;
+}
+.save_promot {
+  font-size: 14px;
+}
+
+.login_btn {
+  width: 200px;
+  margin-top: 20px;
+}
