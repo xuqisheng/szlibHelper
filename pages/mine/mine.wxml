@@ -1,2 +1,8 @@
 <!--pages/mine/mine.wxml-->
-<text>开发中</text>
+
+<text class="txt_finance">我的财经</text>
+<text class="txt_libary_info">我的读者证</text>
+<text class="txt_person_info">个人信息</text>
+<text class="txt_person_info">我的预借</text>
+<text class="txt_logout">退出登录</text>
+

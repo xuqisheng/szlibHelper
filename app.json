@@ -7,15 +7,14 @@
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "深图小助手",
     "navigationBarTextStyle":"black"
   },
   "tabBar":{
-    "color": "#9E9E9E", 
-    "selectedColor": "darkslateblue",
-    "backgroundColor": "#fff",
-    "borderStyle": "#ccc",
-    "font-size": "20px",
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
     "list": [{
       "pagePath": "pages/loanInfo/loanInfo",
       "iconPath": "wechat_gray.jpg",
