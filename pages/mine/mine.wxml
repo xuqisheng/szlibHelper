@@ -1,8 +1,8 @@
 <!--pages/mine/mine.wxml-->
-
-<text class="txt_finance">我的财经</text>
-<text class="txt_libary_info">我的读者证</text>
-<text class="txt_person_info">个人信息</text>
-<text class="txt_person_info">我的预借</text>
-<text class="txt_logout">退出登录</text>
-
+<view class="mine_frame">
+    <block wx:for-items="{{list}}" wx:key="{{item.id}}">
+        <view class="mine_item">
+            <view class="mine_item_text" bindtap="kindToggle">{{item.name}}</view>
+        </view>
+    </block>
+</view>
