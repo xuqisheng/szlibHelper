@@ -3,6 +3,15 @@ Page({
   data:{
     list: [
       {
+        id: 'historbooked',
+        name: '历史借阅',
+        open: false
+      }, {
+        id: 'prebooked',
+        name: '我的预借',
+        open: false
+      },
+      {
         id: 'finance',
         name: '我的财经',
         open: false
@@ -15,17 +24,13 @@ Page({
         name: '个人信息',
         open: false
       }, {
-        id: 'prebooked',
-        name: '我的预借',
-        open: false
-      }, {
         id: 'logout',
         name: '退出登录',
         open: false
       }
     ]
   },
-  kindToggle: function (e) {
+  kindTapMineItem: function (e) {
     var id = e.currentTarget.id, list = this.data.list;
   },
   onLoad:function(options){

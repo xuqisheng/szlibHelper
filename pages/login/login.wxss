@@ -11,48 +11,55 @@
 }*/
 .logo_frame {
   width: 375px;
-  height: 100px; 
+  height: 90px;
   background: snow;
 }
 
 .mg_left {
-  margin-left: 88px;
+  margin-left: 175rpx;
 }
 
 .flex_wrap {
   display:flex;
-  margin-top: 240px;
+  margin-top: 336rpx;
 }
+
 .image_frame {
-  height: 25px;
+  height: 26px;
   width: 26px;
-  margin-top: 0.5px;
-  margin-left: 16px;
+  margin-top: 0rpx;
+  margin-left: 24rpx;
+}
+
+.inputer {
+  width: 400rpx;
+  border: thin solid black;
+  justify-content: center;
 }
 
 .account_inputer {
-  width: 200px;
-  border: thin solid black;
-  margin-bottom: 10px;
   font-size: 14px;
-  justify-content: center;
 }
 .password_inputer {
-  width: 200px;
-  border: thin solid black;
-  margin-bottom: 10px;
-  justify-content: center;
+  margin-top: 16px;
   font-size: 14px;
+}
+.password_promote {
+  margin-top: 12rpx;
+  font-size: 13px;
 }
 
+.checkbox_group {
+  margin-top: 24rpx;
+}
 .checkbox_icon {
-  height: 10px;
+  height: 10rpx;
 }
 .save_promot {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .login_btn {
-  width: 200px;
-  margin-top: 20px;
+  width: 400rpx;
+  margin-top: 12px;
 }

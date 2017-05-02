@@ -2,7 +2,7 @@
 <view class="mine_frame">
     <block wx:for-items="{{list}}" wx:key="{{item.id}}">
         <view class="mine_item">
-            <view class="mine_item_text" bindtap="kindToggle">{{item.name}}</view>
+            <view class="mine_item_text" bindtap="kindTapMineItem">{{item.name}}</view>
         </view>
     </block>
 </view>

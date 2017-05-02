@@ -2,13 +2,19 @@
 
 <image style="width: 100%; height: 100px; background-color: darkslateblue;" mode="aspectFit" src="/logo.png" />
 <view class="flex_wrap mg_left" style="flex-direction:row">
-    <view class="account_inputer">
-        <input bindinput="bindAccountInput" placeholder="借书证账号" value="{{account}}" />
+    <view class="account_inputer inputer">
+        <input bindinput="bindAccountInput" placeholder="借书证卡号" value="{{account}}" />
     </view>
     <image class="image_frame" src="/saomiao.jpg" mode="scaleToFill" bindtap="onTapScan"/>
 </view>
-<view class="password_inputer mg_left">
+<view class="password_promote mg_left">
+可直接扫描借书证上的条形码
+</view>
+<view class="password_inputer mg_left inputer">
     <input bindinput="bindPasswordInput" placeholder="密码" value="{{passwd}}" />
+</view>
+<view class="password_promote mg_left">
+默认密码为出生年月日，如：19910101
 </view>
 <checkbox-group class="checkbox_group mg_left" bindchange="checkboxChange">
     <label class="save_promot">
