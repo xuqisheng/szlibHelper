@@ -1,0 +1,163 @@
+GET http://www.szlib.org.cn/szlibmobile/mylibrary/readers_card.html HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/member.jsp
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493738894.1492704352.; _pk_ses.7.8720=*
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:30:52 GMT
+Content-Type: text/html;charset=UTF-8
+Content-Length: 4864
+Connection: keep-alive
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<!--<meta name="viewport" content="width=640px, maximum-scale=1.0, user-scalable=no,target-densitydpi=device-dpi" />-->
+<meta name="viewport" content="width=640px,maximum-scale=1.0, user-scalable=no,target-densitydpi=320" />
+<link rel="Shortcut Icon" href="/favicon.ico?v1" type="image/x-icon" />
+
+<meta name="Keywords" content="深圳图书馆 • 图书馆之城" />
+<meta name="Description" content="深圳图书馆 • 图书馆之城" />
+<meta name="robots" content="index,follow,noodp,noydir" />
+
+<title>我的图书馆</title>
+
+<link rel="stylesheet" href="../media/inc/style.css" />
+<link rel="stylesheet" href="../media/inc/swiper.css" />
+
+<script src="../media/js/zepto.min.js"></script>
+<script src="../media/js/swiper.min.js"></script>
+<script src="../media/js/func.js"></script>
+<script src="../media/js/jquery.js"></script>
+
+</head>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+var str="";
+var str1="";
+
+	$.ajax({  
+          url: '../proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderxmlByIdx?index=cardno&value=0440050867306',
+          type: 'GET',   
+          timeout: 10000,  
+          cache: false,  
+          dataType : "json",//数据类型为jsonp   
+          //jsonp: "callback",//服务端用于接收callback调用的function名的参数   只在跨域时配置，
+
+          success: function(json){
+
+		   	var CardType=json.CardType;
+		   	var CardEnddate=json.CardEnddate;
+		    str+="类型："+CardType+"<br />";
+			str+=	"读者证号：0440050867306<br />";
+			 str+="有效期截至到："+CardEnddate;
+			
+            $("#content1").html(str);
+                     
+             	var canloannum=json.canloannum;
+             	$.ajax({  
+				          url: '../proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderRightByRecordno?recordno=1961683',
+				          type: 'GET',   
+				          timeout: 10000,  
+				          cache: false,  
+				          dataType : "json",//数据类型为jsonp   
+				          //jsonp: "callback",//服务端用于接收callback调用的function名的参数   只在跨域时配置，
+				
+				          success: function(json1){
+				    
+				          
+				              	var wifi="未开通";
+				             	if(json1.Read[0].text.indexOf("无线网")>=0)			          	
+				             		wifi="开通";
+			             	
+				             	str1+=	"<li><span class='title'>可外借图书</span><span class='num'>"+canloannum+"本</span></li>";
+								str1+=	"<li><span class='title'>可上机时间</span><span class='num'>120分钟</span></li>";
+						//		str1+=	"<li><span class='title'>数据库外访问</span><span class='num'>开通</span></li>";
+						//		str1+=	"<li><span class='title'>登录深圳文献港</span><span class='num'>开通</span></li>";
+								str1+=	"<li><span class='title'>无线WiFi服务</span><span class='num'>"+wifi+"</span></li>";
+								str1+=	"<li><span class='title'>统一服务</span><span class='num'>开通</span></li>";
+								str1+=	"<li><span class='title'>预借服务</span><span class='num'>开通</span></li>";
+				               $("#content2").html(str1);
+				          
+			      			 }            	
+             		 }); 
+         }
+         
+	 }); 
+
+</script>
+
+<body>
+<div class="pbody page_loading">
+	<div class="loading"></div>
+	<div class="cont_page">
+		<div class="header">
+			<a href="javascript:history.back()" class="back_1"><span>返回</span></a>
+			<h1 class="title">读者证</h1>
+		</div>
+		
+		<div class="container">
+			<div class="cardtop">
+				<div class="text" id="content1">
+				
+				</div>
+			</div>
+			
+			<ul class="cardlist" id="content2">
+			
+			</ul>
+			
+			<ul class="memlist memcarlist">
+				<li><a href="mem_loss.html"><span>挂失</span></a></li>
+				<li><a href="changepassword.jsp"><span>修改密码</span></a></li>
+		<!-- 		<li><a href="mem_upgrade.html"><span>升级读者证</span></a></li> -->
+			</ul>		
+		</div>	
+	</div>	
+</div>
+
+<script type="text/javascript">
+$(function(){
+	
+})
+</script>
+
+</body>
+</html>
+
+
+
+
+<!-- Piwik -->
+
+	<script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? " https://statistics.szlib.org.cn/piwik/" : " http://statistics.szlib.org.cn/piwik/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+	</script><script type="text/javascript">
+	try {
+	var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+	piwikTracker.trackPageView();
+	piwikTracker.enableLinkTracking();
+	} catch( err ) {}
+	</script><noscript><p><img src=" http://statistics.szlib.org.cn/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+	
+<!-- End Piwik Tag -->

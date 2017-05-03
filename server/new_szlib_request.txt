@@ -1,0 +1,248 @@
+
+login:
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/readerLogin?username=0440050867306&password=19911213&_=1493737548128 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/login.html?flag=1
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493737525.1492704352.; _pk_ses.7.8720=*
+
+resp:
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:05:53 GMT
+Content-Type: application/json;charset=UTF-8
+Content-Length: 279
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+{"cardno":"0440050867306","message":"OK","name":"江福强","library":"044005","dept":null,"CardType":"普通读者证","Email":null,"CardStatus":"有效","CardStatusCode":"n","Mobile":"18576615101","username":"0440050867306","userid":2798074,"readerno":1961683}
+
+
+fetch_loan:
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/circulation/getLoanList?readerno=1961683&_=1493737796757 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/mem_borrow.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493737548.1492704352.; _pk_ses.7.8720=*
+
+resp:
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:10:02 GMT
+Content-Type: text/html;charset=UTF-8
+Content-Length: 915
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+[{"loannum":"3"},{"meta":{"recordno":1,"barcode":"04400611219185","metaid":3531152,"title":"互联网时代的阅读产业","callno":"G252.17/27","volumeno":"","loandate":20170325,"returndate":20170517,"renew":1,"local":"南山馆二楼社科","isbn":"978-7-5130-3913-0","notes":"","price":45,"servicetype":""}},{"meta":{"recordno":2,"barcode":"04400611179671","metaid":2932282,"title":"艺术中的理性 = Reason in Art","callno":"J0/95","volumeno":"","loandate":20170325,"returndate":20170517,"renew":1,"local":"南山馆二楼社科","isbn":"978-7-301-18331-1","notes":"","price":35,"servicetype":""}},{"meta":{"recordno":3,"barcode":"04400611178196","metaid":3061297,"title":"网络舆情研究与应对","callno":"G206.2/145","volumeno":"","loandate":20170429,"returndate":20170531,"renew":0,"local":"南山馆二楼社科","isbn":"978-7-121-24674-6","notes":"","price":52,"servicetype":""}}]
+
+
+
+cover:
+GET http://202.112.150.126/index.php?client=szlib&isbn=978-7-301-18331-1/cover HTTP/1.1
+Host: 202.112.150.126
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Accept: image/webp,image/*,*/*;q=0.8
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/mem_borrow.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+
+resp:
+HTTP/1.1 200 OK
+Server: nginx/1.7.6
+Date: Tue, 02 May 2017 15:09:20 GMT
+Content-Type: image/jpeg
+Connection: keep-alive
+X-Powered-By: PHP/5.4.3
+Content-Length: 14122
+/*binary,
+Format: JPEG
+14,122 bytes
+
+200w x 255h
+0.28 bytes/px
+96 dpi
+Baseline
+Subsample@4:2:0
+APP0 Data (14 bytes)
+[JFIF1.1]
+DPI: 96
+HuffmanTables: 4
+*/
+
+Renew:
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/circulation/Renew?barcode=04400611219185&userid=2798074&ip=172.16.80.51&_=1493738319895 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/mem_borrow.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493737797.1492704352.; _pk_ses.7.8720=*
+
+resp:
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:18:45 GMT
+Content-Type: text/html;charset=UTF-8
+Content-Length: 238
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+{"eventtime":"23:18:45","cardno":"0440050867306","readername":"江福强","callno":"G252.17/27","volumeno":"","docinfo":"互联网时代的阅读产业","barcode":"04400611219185","message":"已超过最大续借次数!"}
+
+reader_info:
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderxmlByIdx?index=cardno&value=0440050867306&_=1493738759569 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/mem_info.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493738755.1492704352.; _pk_ses.7.8720=*
+
+resp:
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:26:05 GMT
+Content-Type: application/json;charset=UTF-8
+Content-Length: 756
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+{"readerno":1961683,"userid":2798074,"CardTypeID":"2","CardType":"普通读者证","Status":"有效","Gender":"男","Cardno":"0440050867306","Regdate":20140831,"Name":"江福强","Notes":"","IDno":"441424199112130990","Etccode":null,"Birth":19911213,"Library":"044005","CardBegdate":20160628,"CardEnddate":20241231,"Address":"广州市天河区五山路381号2010级自动化学院","Workunit":"","Phone":"15914395730","Email":null,"Mobile":"18576615101","Updatedate":20140831,"Class1":null,"Class2":null,"Class3":null,"Class4":null,"canloannum":10,"banlance":13.3,"deposit":100,"arrea":0,"username":"0440050867306","password":"650fbca0157ec0bdecafeed0d7b5b1dc","question":"我手机号码的后6位?","answer":"6615101","ReadDaysCount":0}
+
+
+fiannce:
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderxmlByIdx?index=cardno&value=0440050867306&_=1493771386868 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/mem_finance.jsp
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=73E0BFC2D0CABB17D0ADD0E3F7B8F3D7; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.4.1493771200.1493740927.; _pk_ses.7.8720=*
+
+resp:
+HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 03 May 2017 00:29:52 GMT
+Content-Type: application/json;charset=UTF-8
+Content-Length: 756
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+{"readerno":1961683,"userid":2798074,"CardTypeID":"2","CardType":"普通读者证","Status":"有效","Gender":"男","Cardno":"0440050867306","Regdate":20140831,"Name":"江福强","Notes":"","IDno":"441424199112130990","Etccode":null,"Birth":19911213,"Library":"044005","CardBegdate":20160628,"CardEnddate":20241231,"Address":"广州市天河区五山路381号2010级自动化学院","Workunit":"","Phone":"15914395730","Email":null,"Mobile":"18576615101","Updatedate":20140831,"Class1":null,"Class2":null,"Class3":null,"Class4":null,"canloannum":10,"banlance":13.3,"deposit":100,"arrea":0,"username":"0440050867306","password":"650fbca0157ec0bdecafeed0d7b5b1dc","question":"我手机号码的后6位?","answer":"6615101","ReadDaysCount":0}
+
+
+prebooked:
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/requestmanage/getReserveRequest?readerno=1961683&requestStatus=qasd&recordType=Y&v_page=1&_=1493771511730 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/mem_preborrow.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=73E0BFC2D0CABB17D0ADD0E3F7B8F3D7; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.4.1493771512.1493740927.; _pk_ses.7.8720=*
+
+resp:
+HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 03 May 2017 00:31:57 GMT
+Content-Type: text/html;charset=UTF-8
+Content-Length: 525
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+{"totalno":0,"record":[{"regdate":"20140831","title":"人工智能的未来/ (美)杰夫·霍金斯(Jeff Hawkins), (美)桑德拉·布拉克斯莉(Sandra Blakeslee)著;贺俊杰, 李若子, 杨倩译","isbn":"7-5369-4018-1","loanaddr":"宝安区西乡铁岗水库桃花源科技园综合服务楼一楼图书馆","status":"超有效期自动取消","barcode":"F4401000215272","recordid":"111665607","enddate":"20140907","deadline":"20141027","metatable":"80000002","metaid":"1789317","notes":"15914395730"}]}
+
+
+prebooked_all:
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/requestmanage/getReserveRequest?readerno=1961683&requestStatus=all&recordType=Y&v_page=1&_=1493771672311 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/mem_preborrow.jsp?backbutton=1&requestStatus=all
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=73E0BFC2D0CABB17D0ADD0E3F7B8F3D7; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.4.1493771672.1493740927.; _pk_ses.7.8720=*
+
+
+the cover url:
+var cover= "http://202.112.150.126/index.php?client=szlib&isbn=" + isbn + "/cover";
+

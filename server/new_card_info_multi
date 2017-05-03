@@ -1,0 +1,279 @@
+GET http://www.szlib.org.cn/szlibmobile/mylibrary/readers_card.html HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/member.jsp
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493738894.1492704352.; _pk_ses.7.8720=*
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:30:52 GMT
+Content-Type: text/html;charset=UTF-8
+Content-Length: 4864
+Connection: keep-alive
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<!--<meta name="viewport" content="width=640px, maximum-scale=1.0, user-scalable=no,target-densitydpi=device-dpi" />-->
+<meta name="viewport" content="width=640px,maximum-scale=1.0, user-scalable=no,target-densitydpi=320" />
+<link rel="Shortcut Icon" href="/favicon.ico?v1" type="image/x-icon" />
+
+<meta name="Keywords" content="深圳图书馆 • 图书馆之城" />
+<meta name="Description" content="深圳图书馆 • 图书馆之城" />
+<meta name="robots" content="index,follow,noodp,noydir" />
+
+<title>我的图书馆</title>
+
+<link rel="stylesheet" href="../media/inc/style.css" />
+<link rel="stylesheet" href="../media/inc/swiper.css" />
+
+<script src="../media/js/zepto.min.js"></script>
+<script src="../media/js/swiper.min.js"></script>
+<script src="../media/js/func.js"></script>
+<script src="../media/js/jquery.js"></script>
+
+</head>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+var str="";
+var str1="";
+
+	$.ajax({  
+          url: '../proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderxmlByIdx?index=cardno&value=0440050867306',
+          type: 'GET',   
+          timeout: 10000,  
+          cache: false,  
+          dataType : "json",//数据类型为jsonp   
+          //jsonp: "callback",//服务端用于接收callback调用的function名的参数   只在跨域时配置，
+
+          success: function(json){
+
+		   	var CardType=json.CardType;
+		   	var CardEnddate=json.CardEnddate;
+		    str+="类型："+CardType+"<br />";
+			str+=	"读者证号：0440050867306<br />";
+			 str+="有效期截至到："+CardEnddate;
+			
+            $("#content1").html(str);
+                     
+             	var canloannum=json.canloannum;
+             	$.ajax({  
+				          url: '../proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderRightByRecordno?recordno=1961683',
+				          type: 'GET',   
+				          timeout: 10000,  
+				          cache: false,  
+				          dataType : "json",//数据类型为jsonp   
+				          //jsonp: "callback",//服务端用于接收callback调用的function名的参数   只在跨域时配置，
+				
+				          success: function(json1){
+				    
+				          
+				              	var wifi="未开通";
+				             	if(json1.Read[0].text.indexOf("无线网")>=0)			          	
+				             		wifi="开通";
+			             	
+				             	str1+=	"<li><span class='title'>可外借图书</span><span class='num'>"+canloannum+"本</span></li>";
+								str1+=	"<li><span class='title'>可上机时间</span><span class='num'>120分钟</span></li>";
+						//		str1+=	"<li><span class='title'>数据库外访问</span><span class='num'>开通</span></li>";
+						//		str1+=	"<li><span class='title'>登录深圳文献港</span><span class='num'>开通</span></li>";
+								str1+=	"<li><span class='title'>无线WiFi服务</span><span class='num'>"+wifi+"</span></li>";
+								str1+=	"<li><span class='title'>统一服务</span><span class='num'>开通</span></li>";
+								str1+=	"<li><span class='title'>预借服务</span><span class='num'>开通</span></li>";
+				               $("#content2").html(str1);
+				          
+			      			 }            	
+             		 }); 
+         }
+         
+	 }); 
+
+</script>
+
+<body>
+<div class="pbody page_loading">
+	<div class="loading"></div>
+	<div class="cont_page">
+		<div class="header">
+			<a href="javascript:history.back()" class="back_1"><span>返回</span></a>
+			<h1 class="title">读者证</h1>
+		</div>
+		
+		<div class="container">
+			<div class="cardtop">
+				<div class="text" id="content1">
+				
+				</div>
+			</div>
+			
+			<ul class="cardlist" id="content2">
+			
+			</ul>
+			
+			<ul class="memlist memcarlist">
+				<li><a href="mem_loss.html"><span>挂失</span></a></li>
+				<li><a href="changepassword.jsp"><span>修改密码</span></a></li>
+		<!-- 		<li><a href="mem_upgrade.html"><span>升级读者证</span></a></li> -->
+			</ul>		
+		</div>	
+	</div>	
+</div>
+
+<script type="text/javascript">
+$(function(){
+	
+})
+</script>
+
+</body>
+</html>
+
+
+
+
+<!-- Piwik -->
+
+	<script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? " https://statistics.szlib.org.cn/piwik/" : " http://statistics.szlib.org.cn/piwik/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+	</script><script type="text/javascript">
+	try {
+	var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 7);
+	piwikTracker.trackPageView();
+	piwikTracker.enableLinkTracking();
+	} catch( err ) {}
+	</script><noscript><p><img src=" http://statistics.szlib.org.cn/piwik/piwik.php?idsite=7" style="border:0" alt="" /></p></noscript>
+	
+<!-- End Piwik Tag -->
+
+------------------------------------------------------------------
+
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderxmlByIdx?index=cardno&value=0440050867306&_=1493739047443 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/readers_card.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493738894.1492704352.; _pk_ses.7.8720=*
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:30:53 GMT
+Content-Type: application/json;charset=UTF-8
+Content-Length: 756
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+{"readerno":1961683,"userid":2798074,"CardTypeID":"2","CardType":"普通读者证","Status":"有效","Gender":"男","Cardno":"0440050867306","Regdate":20140831,"Name":"江福强","Notes":"","IDno":"441424199112130990","Etccode":null,"Birth":19911213,"Library":"044005","CardBegdate":20160628,"CardEnddate":20241231,"Address":"广州市天河区五山路381号2010级自动化学院","Workunit":"","Phone":"15914395730","Email":null,"Mobile":"18576615101","Updatedate":20140831,"Class1":null,"Class2":null,"Class3":null,"Class4":null,"canloannum":10,"banlance":13.3,"deposit":100,"arrea":0,"username":"0440050867306","password":"650fbca0157ec0bdecafeed0d7b5b1dc","question":"我手机号码的后6位?","answer":"6615101","ReadDaysCount":0}
+
+
+
+------------------------------------------------------------------
+
+GET http://statistics.szlib.org.cn/piwik/piwik.php?action_name=%E6%88%91%E7%9A%84%E5%9B%BE%E4%B9%A6%E9%A6%86&idsite=7&rec=1&r=826280&h=23&m=30&s=47&url=http%3A%2F%2Fwww.szlib.org.cn%2Fszlibmobile%2Fmylibrary%2Freaders_card.html&urlref=http%3A%2F%2Fwww.szlib.org.cn%2Fszlibmobile%2Fmylibrary%2Fmember.jsp&_id=0247a72b858e710c&_idts=1492702063&_idvc=2&_idn=0&_refts=0&_viewts=1492704352&send_image=0&cookie=1&res=400x863&gt_ms=37 HTTP/1.1
+Host: statistics.szlib.org.cn
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Accept: image/webp,image/*,*/*;q=0.8
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/readers_card.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03
+
+
+HTTP/1.1 204 No Response
+Server: nginx/1.6.2
+Date: Tue, 02 May 2017 15:30:53 GMT
+Content-Type: text/html
+Connection: keep-alive
+X-Powered-By: PHP/5.3.16
+
+
+
+------------------------------------------------------------------
+
+GET http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderRightByRecordno?recordno=1961683&_=1493739047521 HTTP/1.1
+Host: www.szlib.org.cn
+Connection: keep-alive
+Accept: application/json, text/javascript, */*; q=0.01
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36
+Referer: http://www.szlib.org.cn/szlibmobile/mylibrary/readers_card.html
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: JSESSIONID=DE69F04777D411626114284E71B14061; FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; _pk_ref.1.8720=%5B%22%22%2C%22%22%2C1492445124%2C%22http%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26qs%3Dn%26form%3DQBLH%26sp%3D-1%26pq%3D%25E6%25B7%25B1%25E5%259C%25B3%25E5%259B%25BE%25E4%25B9%25A6%25E9%25A6%2586%26sc%3D8-5%26sk%3D%26cvid%3DD1A000438B8344319109F704CA7BAD10%22%5D; _pk_id.1.8720=3b94ac70e44ddbb8.1491729113.10.1492445124.1492440963.; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03; _pk_id.7.8720=0247a72b858e710c.1492702063.2.1493739047.1492704352.; _pk_ses.7.8720=*
+
+
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 02 May 2017 15:30:53 GMT
+Content-Type: application/json;charset=UTF-8
+Content-Length: 2698
+Connection: keep-alive
+Pragma: No-cache
+Cache-Control: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+
+
+
+
+
+
+
+
+{"cardLoanType":"中文文献外借10","Loan":[{"text":"〖中文图书外借〗(10本 31天)"},{"text":"〖期刊外借〗(10本 21天)"},{"text":"〖音像资料外借〗(10本 21天)"},{"text":"〖盲文外借〗(10本 60天)"},{"text":"〖老馆外借〗(3本 31天)"},{"text":"〖港台文献外借〗(2本 31天)"},{"text":"〖励读图书外借〗(10本 31天)"},{"text":"〖励读期刊外借〗(10本 21天)"},{"text":"〖励读音像外借〗(10本 21天)"},{"text":"〖精品文献外借〗(5本 31天)"},{"text":"〖大学城中文图书〗(10本 31天)"}],"PreLoan":"3","DepositMonetary":"100","Read":[{"text":"〖无线网〗"},{"text":"〖深图互联网服务〗"},{"text":"〖电子期刊检索(1楼)〗"},{"text":"〖东盟图书馆〗"},{"text":"〖6楼文献中心持证进入〗"},{"text":"〖6楼文献中心电子阅览〗"},{"text":"〖时装电子阅览（5楼）〗"},{"text":"〖港台室阅览〗"},{"text":"〖深图时装馆阅览〗"},{"text":"〖深图电子报纸阅览〗"},{"text":"〖深图视频点播服务〗"},{"text":"〖深图电子资源检索(4楼)〗"},{"text":"〖深图专题电子阅览(5楼)〗"},{"text":"〖少儿区上网服务〗"},{"text":"〖龙岗电子阅览室〗"},{"text":"〖龙岗视听阅览室〗"},{"text":"〖龙岗少儿多媒体阅览室〗"},{"text":"〖龙岗VOD阅览室〗"},{"text":"〖桃源居电子阅览〗"},{"text":"〖创维电子阅览室〗"},{"text":"〖罗湖电子阅览室〗"},{"text":"〖新百丽电子阅览室〗"},{"text":"〖南山图书馆电子阅览室〗"},{"text":"〖南山馆百旺信分馆电子阅览室〗"},{"text":"〖南山馆赤湾分馆电子阅览室〗"},{"text":"〖南山馆高新分馆电子阅览室〗"},{"text":"〖南山馆华侨城分馆电子阅览室〗"},{"text":"〖南山馆设计分馆电子阅览室〗"},{"text":"〖南山馆同富裕分馆电子阅览室〗"},{"text":"〖南山馆育才分馆电子阅览室〗"},{"text":"〖南山馆众冠分馆电子阅览室〗"},{"text":"〖盐田街道馆电子阅览室〗"},{"text":"〖南山馆少儿电子阅览室〗"},{"text":"〖深图电子报纸阅览区2〗"},{"text":"〖福田电子阅览室〗"},{"text":"〖福田分馆电子阅览室〗"},{"text":"〖宝安电子阅览室〗"},{"text":"〖宝安分馆电子阅览室〗"},{"text":"〖光明新区电子阅览室〗"},{"text":"〖坪山分馆街道电子阅览室〗"},{"text":"〖坪山电子阅览室〗"},{"text":"〖龙华新区电子阅览室〗"},{"text":"〖盐田区馆电子阅览室〗"}],"ReadLoan":[{"text":"〖过刊闭架暂借1楼〗(最多24本)"},{"text":"〖文献中心闭架阅览（暂借）〗(最多1本)"}],"mimeograph":"on"}
+
+
+
+------------------------------------------------------------------
+
+GET http://statistics.szlib.org.cn/piwik/piwik.php?action_name=%E6%88%91%E7%9A%84%E5%9B%BE%E4%B9%A6%E9%A6%86&idsite=7&rec=1&r=826280&h=23&m=30&s=47&url=http%3A%2F%2Fwww.szlib.org.cn%2Fszlibmobile%2Fmylibrary%2Freaders_card.html&urlref=http%3A%2F%2Fwww.szlib.org.cn%2Fszlibmobile%2Fmylibrary%2Fmember.jsp&_id=0247a72b858e710c&_idts=1492702063&_idvc=2&_idn=0&_refts=0&_viewts=1492704352&send_image=0&cookie=1&res=400x863&gt_ms=37 HTTP/1.1
+Host: statistics.szlib.org.cn
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+Accept: image/webp,image/*,*/*;q=0.8
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4
+Cookie: FVTDKL888888=636273547175950000; _gscu_2029275044=91729111hp6uir30; PIDDKL888888=2017040917115576682905; VPSDKL888888=9; LVTDKL888888=636280707320768750; VTSDKL888888=6; SIDDKL888888=b1fa18283dc642c8a72acf81727dde03
+
+
+HTTP/1.1 204 No Response
+Server: nginx/1.6.2
+Date: Tue, 02 May 2017 15:30:53 GMT
+Content-Type: text/html
+Connection: keep-alive
+X-Powered-By: PHP/5.3.16
+
+
+
+------------------------------------------------------------------
+
