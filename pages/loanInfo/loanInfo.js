@@ -1,5 +1,6 @@
 // pages/loanInfo/loanInfo.js
 //获取应用实例
+var util = require('../utils/util.js')
 var app = getApp()
 Page({
   data:{
@@ -82,17 +83,52 @@ Page({
         console.log(res)
         if (res.statusCode == 200) {
           that.setData({
-            loanList: res.data
+            loanList: res.data,
+            isShowPromot: false
           });
           if (res.data.length==0) {
             that.setData({
               isShowPromot: true
             });
           }
+          // check local cover file
+          wx.getSavedFileList({
+            success: function(res) {
+              var localFileList = res.filelist;
+              var needDownloadIsbns = new Array();
+              for (var loanItem in res.data) {
+                var isbn = loanItem.isbn;
+                var isFind = false;
+                // find out cover pictures that we do not have download yet
+                for (var fileItem in localFileList) {
+                  filePath = fileItem.filePath
+                }
+                if (isFind == false) {
+                  needDownloadIsbns.push(isbn);
+                }
+              }
+              // then download it!
+              util.fetchSzlibCover({
+                isbn: "978-7-301-18331-1",
+                success: function(coverPath) {
+                  // update UI
+                }
+              })
+            },
+            fail: function(res) {
+              // fetch book cover
+              util.fetchSzlibCover({
+                isbn: "978-7-301-18331-1",
+                success: function(coverPath) {
+                  // update UI
+                }
+              })
+            }
+          });
         }
       },
       fail: function(res) {
-        console.log("Login failed" + res.data)
+        console.log("Fetch loan list failed" + res.data)
       }
     });
   },

@@ -17,5 +17,32 @@ function formatNumber(n) {
 }
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  fetchSzlibCover: fetchSzlibCover
+}
+
+function fetchSzlibCover(object) {
+  // GET http://202.112.150.126/index.php?client=szlib&isbn=978-7-301-18331-1/cover HTTP/1.1
+  wx.downloadFile({
+      url: 'https://www.jiangfuqiang.cn/getSzlibCover/' + object.isbn + ".jpg",
+      header: {
+          'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function(res) {
+        console.log(res);
+        coverPath = res.tempFilePath;
+        // save it, 14kb per cover picture
+        wx.saveFile({
+          tempFilePath: coverPath,
+          success: function(res) {
+            var savedFilePath = res.savedFilePath
+          }
+        });
+        // update UI
+        object.success(coverPath);
+      },
+      failed: function(res) {
+        console.log("fetch cover "+ isbn + " failed");
+      }
+    });
 }
