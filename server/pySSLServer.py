@@ -5,7 +5,7 @@ import socket, os
 import BaseHTTPServer, SimpleHTTPServer
 import ssl
 import testFetchSzlib
-from testFetchSzlib import log, UserInfoDef
+from testFetchSzlib import log, UserInfoDef, getSzlibBookCover
 
 CERT_PATH = "/home/april/cert/214067218810640.pem"
 KEY_PATH = "/home/april/cert/214067218810640.key"
@@ -19,13 +19,23 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile = socket._fileobject(self.request, "wb", self.wbufsize)  
   
     def do_GET(self):  
-        try:  
-            self.send_response(200) 
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            self.wfile.write("DO NOT SUPPORT GET")
-        except IOError:
-            self.send_error(404, 'DO NOT SUPPORT GET')
+        print self.path
+        if self.path.startswith("getSzlibCover/"):
+            isbn = self.path.split("/")[1]
+            req = request.get(getLoanListUrl, params=urlParam)
+            print req.text
+            imgData = testFetchSzlib.getSzlibBookCover(isbn)
+            self.send_response(200)
+            self.send_header('Content-type', 'image/jpeg')
+            self.wfile.write(imgData)
+        else:
+            try:  
+                self.send_response(200) 
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                self.wfile.write("DO NOT SUPPORT GET")
+            except IOError:
+                self.send_error(404, 'DO NOT SUPPORT GET')
 
     def do_POST(self):  
         try:  
