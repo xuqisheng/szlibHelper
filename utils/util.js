@@ -18,7 +18,8 @@ function formatNumber(n) {
 
 module.exports = {
   formatTime: formatTime,
-  fetchSzlibCover: fetchSzlibCover
+  fetchSzlibCover: fetchSzlibCover,
+  getRemainDays: getRemainDays
 }
 
 function fetchSzlibCover(object) {
@@ -30,7 +31,7 @@ function fetchSzlibCover(object) {
       },
       success: function(res) {
         console.log(res);
-        coverPath = res.tempFilePath;
+        var coverPath = res.tempFilePath;
         // save it, 14kb per cover picture
         wx.saveFile({
           tempFilePath: coverPath,
@@ -45,4 +46,15 @@ function fetchSzlibCover(object) {
         console.log("fetch cover "+ isbn + " failed");
       }
     });
+}
+
+function getRemainDays(returnDateNum) {
+  var dateStr = "" + returnDateNum;
+  var month = "" + dateStr.substr(4,2)-1;
+  var returndate = new Date(dateStr.substr(0,4), month, dateStr.substr(6,2));
+  console.log("the fucking return date: " + returndate);
+  var currentdate = new Date();
+  var days = Math.round((returndate - currentdate)/(1000*60*60*24));
+  console.log("the fucking days: " + days);
+  return days;
 }

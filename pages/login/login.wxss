@@ -21,7 +21,7 @@
 
 .flex_wrap {
   display:flex;
-  margin-top: 336rpx;
+  margin-top: 328rpx;
 }
 
 .image_frame {

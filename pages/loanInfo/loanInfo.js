@@ -1,6 +1,6 @@
 // pages/loanInfo/loanInfo.js
 //获取应用实例
-var util = require('../utils/util.js')
+var util = require('../../utils/util.js')
 var app = getApp()
 Page({
   data:{
@@ -60,7 +60,26 @@ Page({
       }
     });
   },
+  onCoverLoadError: function(e) {
+    console.log(e);
+    console.log("What's going on!!!");
+
+    var index=e.target.dataset.index;
+    var _errImg=e.target.dataset.errImg;
+    var _errObj={};
+    _errObj[_errImg]="../../loan_book.png";
+    //_errObj[_errImg]=this.data.loanList[index].img;
+
+    console.log( e.detail.errMsg+"----"+ _errObj[_errImg] + "----" +_errImg ); 
+    var that = this;
+    setTimeout(function() {
+        that.setData(_errObj);
+      },
+      400
+    );
+  },
   onLoad:function(options){
+
     // 页面初始化 options为页面跳转所带来的参数
     console.log(app.globalData);
     this.data.account = app.globalData.account
@@ -82,6 +101,31 @@ Page({
         console.log(res.data)
         console.log(res)
         if (res.statusCode == 200) {
+          /* caculate the remain day */
+          that.data.loanList = res.data;
+          var currentdate = new Date();
+          for (var index=0; index<that.data.loanList.length;index++) {
+            that.data.loanList[index]["remainday"] = util.getRemainDays(that.data.loanList[index].returndate);
+
+            var isbn = that.data.loanList[index].isbn;
+            if (index > 0) {
+              (function(myIndex, myIsbn) {
+                setTimeout(function() {
+                  var key = "loanList[" + myIndex + "].img";
+                  var coverUrl = "http://202.112.150.126/index.php?client=szlib&isbn=" + myIsbn +"/cover";
+                  var currentTime = new Date();
+                  console.log("currentTime: " + currentTime);
+                  console.log(key + " : " + coverUrl);
+                  var _errObj={};
+                  _errObj[key]= coverUrl;
+                  that.setData(_errObj);
+                }, 200*index);
+              })(index, isbn);
+              that.data.loanList[index]["img"] = "../../wechat_gray.jpg";
+            } else {
+              that.data.loanList[index]["img"] = "http://202.112.150.126/index.php?client=szlib&isbn="+ isbn +"/cover";
+            }
+          }
           that.setData({
             loanList: res.data,
             isShowPromot: false
@@ -91,6 +135,7 @@ Page({
               isShowPromot: true
             });
           }
+          /*
           // check local cover file
           wx.getSavedFileList({
             success: function(res) {
@@ -121,10 +166,12 @@ Page({
                 isbn: "978-7-301-18331-1",
                 success: function(coverPath) {
                   // update UI
+                  console.log(coverPath)
                 }
               })
             }
           });
+          */
         }
       },
       fail: function(res) {

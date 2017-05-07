@@ -9,3 +9,12 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } */
+
+page {
+  background-color: #FAFAFA;
+  /*
+  height: 100%;
+  font-size: 32rpx;
+  line-height: 1.6;
+  */
+}

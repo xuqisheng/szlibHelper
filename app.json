@@ -2,7 +2,10 @@
   "pages":[
     "pages/login/login",
     "pages/loanInfo/loanInfo",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/mine/info/generalInfo",
+    "pages/mine/info/reservebook/reservebook",
+    "pages/mine/info/historybooked/historybooked"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -17,8 +20,8 @@
     "backgroundColor": "#ffffff",
     "list": [{
       "pagePath": "pages/loanInfo/loanInfo",
-      "iconPath": "wechat_gray.jpg",
-      "selectedIconPath": "wechat_new.jpg",
+      "iconPath": "loan_book.png",
+      "selectedIconPath": "loan_book.png",
       "text": "借阅"
     }, {
       "pagePath": "pages/mine/mine",

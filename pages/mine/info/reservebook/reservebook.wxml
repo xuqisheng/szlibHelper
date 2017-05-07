@@ -1,5 +1,4 @@
-<!--pages/loanInfo/loanInfo.wxml-->
-
+<!--pages/mine/info/reservebook/reservebook.wxml-->
 <view class="table">
     <block wx:for="{{loanList}}" wx:key="barcode">
         <view class="t_tr">
@@ -15,14 +14,14 @@
             </view>
             <view class="t_info">
                 <view class="t_title">{{item.title}}</view>
-                <view class="t_callno">{{item.callno}}</view>
-                <view class="t_notice">还剩：{{item.remainday}}天</view>
+                <view class="t_status">{{item.status}}</view>
+                <view class="t_regdate">{{item.regdate}}</view>
+                <view class="t_deadline">{{item.deadline}}</view>
+                <view class="t_loanaddr">{{item.loanaddr}}</view>
             </view>
-            <button class="renew_btn" id="{{index}}" bindtap="onTapRenew"
-                disabled="{{item.renew<1?false:true}}">续借</button>
         </view>
     </block>
 </view>
 <view class="{{isShowPromot?'promot-show':'promot-hide'}}">
-    <text class="promot-text">无借阅图书</text>
+    <text class="promot-text">无预借图书</text>
 </view>

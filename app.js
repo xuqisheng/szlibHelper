@@ -9,5 +9,8 @@ App({
   globalData:{
     account: "",
     passwdMd5: "",
+  },
+  readerData: {
+    
   }
 })
