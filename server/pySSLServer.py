@@ -2,8 +2,9 @@
 #-*-coding=utf-8-*-
 
 import socket, os
-import BaseHTTPServer, SimpleHTTPServer
 import ssl
+import BaseHTTPServer, SimpleHTTPServer
+from SocketServer import ThreadingMixIn
 import testFetchSzlib
 from testFetchSzlib import log, UserInfoDef, getSzlibBookCover
 
@@ -20,11 +21,13 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
   
     def do_GET(self):  
         print self.path
-        if self.path.startswith("getSzlibCover/"):
-            isbn = self.path.split("/")[1]
-            req = request.get(getLoanListUrl, params=urlParam)
-            print req.text
+        if self.path.startswith("/getSzlibCover/"):
+            isbn = self.path.split("/")[2]
+            print "the isbn: %s" % (isbn)
+            #req = request.get(getLoanListUrl, params=urlParam)
+            #print req.text
             imgData = testFetchSzlib.getSzlibBookCover(isbn)
+            print "imgData len: %d" % len(imgData)
             self.send_response(200)
             self.send_header('Content-type', 'image/jpeg')
             self.wfile.write(imgData)
@@ -37,14 +40,14 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             except IOError:
                 self.send_error(404, 'DO NOT SUPPORT GET')
 
-    def do_POST(self):  
+    def do_POST(self):
         try:  
             print 'path:', self.path
 
             # get post data
             length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(length)
-            print post_data
+            print 'post_data:', post_data
 
             # parse post data
             items = post_data.split('&')
@@ -68,28 +71,15 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 userInfo = UserInfoDef(account, passwdMd5)
             userInfo.handleRequest(postData, self)
 
-            ## setup cookie
-            #cookie = testFetchSzlib.setUpCookie()
-
-            ## fetch data from szlib
-            #rawHtml = getNetwordData(testFetchSzlib.szLibLogin,
-            #        10, postData, testFetchSzlib.headersForReqHtml)
-
-            ## fetch loan list
-            #bookList = getNetwordData(testFetchSzlib.getLoanListUrl,
-            #        10, None, testFetchSzlib.headersForReqHtml)
-
-            #self.send_response(200) 
-            #self.send_header('Content-type', 'text/html')
-            #self.end_headers()
-            #self.wfile.write(bookList)
-
         except IOError:
             self.send_error(404, 'IOError in server!')
 
+class ThreadedHTTPServer(ThreadingMixIn, BaseHTTPServer.HTTPServer):
+    ''' BaseHTTPServer with threading '''
+
 if __name__ == "__main__":
 
-    httpd = BaseHTTPServer.HTTPServer(('www.jiangfuqiang.cn', 443), MiniProgramHandler)
+    httpd = ThreadedHTTPServer(('www.jiangfuqiang.cn', 443), MiniProgramHandler)
 
     httpd.socket = ssl.wrap_socket (httpd.socket,
             keyfile=KEY_PATH,

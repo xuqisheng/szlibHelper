@@ -20,9 +20,18 @@ szLibLogin = "http://www.szlib.org.cn/MyLibrary/readerLoginM.jsp"
 generalGetLoanListUrl = "http://www.szlib.org.cn/MyLibrary/getloanlist.jsp?readerno=%s"
 generalRenewUrl = "http://www.szlib.org.cn/MyLibrary/response.jsp?v_select=%s&"
 
-
 # for test
 getLoanListUrl = "http://www.szlib.org.cn/MyLibrary/getloanlist.jsp?readerno=1961683"
+
+AGENT_NEW_MOBILE = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36'
+
+URL_NEW_LOGIN = "http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/readerLogin?username=%s&password=%s"
+URL_NEW_LOANLIST = "http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/circulation/getLoanList?readerno=%s"
+URL_NEW_RENEW = "http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/circulation/Renew?barcode=%s&userid=%s&ip=%s"
+URL_NEW_READER_INFO = "http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/readermanage/getreaderxmlByIdx?index=cardno&value=%s"
+URL_NEW_COVER = "http://202.112.150.126/index.php?client=szlib&isbn=%s/cover"
+URL_NEW_PREBOOK_ALL = "http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/requestmanage/getReserveRequest?readerno=%s&requestStatus=all&recordType=Y&v_page=1"
+
 
 # utils
 def log(logString):
@@ -87,6 +96,36 @@ def getNetwordData(url, download_timeout = 5, postDataDict = None, headers = Non
         print "Unexpected error:", e
     return data
 
+def getSzlibBookCover(isbn):
+    coverUrl = URL_NEW_COVER % isbn
+    headers = {'Accept': 'image/webp,image/*,*/*;q=0.8',
+               'User-Agent': AGENT_NEW_MOBILE,
+               'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_borrow.html'}
+    print "Get Cover: %s" % (coverUrl)
+    resp = requests.get(coverUrl, headers=headers)
+    print resp.request.headers
+    print resp.headers
+    print resp.content
+    return resp.content
+
+def getReaderInfo(cardno):
+    headers = {'Accept': 'application/json, text/javascript, */*; q=0.01',
+               'User-Agent': AGENT_NEW_MOBILE,
+               'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_info.html'}
+    readerInfoUrl = URL_NEW_READER_INFO % (cardno)
+    resp = requests.get(readerInfoUrl, headers=headers)
+    print resp.content
+    return resp.content
+
+def getReserveBookAll(readerno):
+    headers = {'Accept': 'application/json, text/javascript, */*; q=0.01',
+               'User-Agent': AGENT_NEW_MOBILE,
+               'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_preborrow.html'}
+    reserveBookUrl = URL_NEW_PREBOOK_ALL % (readerno)
+    resp = requests.get(reserveBookUrl, headers=headers)
+    print resp.content
+    return resp.content
+
 class LoanInfoDef:
     " detail about loan info "
 
@@ -126,6 +165,7 @@ class UserInfoDef:
         if operation is None or operation == "login":
             if self.toLogin(handler):
                 self.sendSuccess(handler, "Login success!")
+                self.hasLogin = True
                 return
         elif operation == "getLoanList":
             if self.hasLogin == False:
@@ -133,7 +173,8 @@ class UserInfoDef:
                     self.sendFailed(handler, 404, "login to szlib failed!")
                     return
             # to fetch loan list
-            self.toGetLoanList(handler)
+            #self.toGetLoanList(handler)
+            self.fetchLoanList(handler)
         elif operation == "reNewBook":
             barcode = postData.get("barcode")
             if barcode is None or len(barcode) <= 0:
@@ -145,6 +186,24 @@ class UserInfoDef:
                     return
             # to renew book
             self.toRenewBook(handler, barcode)
+        elif operation == "getReaderInfo":
+            if self.hasLogin == False:
+                self.sendFailed(handler, 403, "MUST login first!");
+            else:
+                cardno = postData.get("cardno")
+                if cardno is not None:
+                    self.sendSuccess(handler, getReaderInfo(cardno))
+                else:
+                    self.sendFailed(handler, 404, "cardno is null!");
+        elif operation == "getLoanHistory":
+            #cardno = postData.get("cardno")
+            #self.sendSuccess(handler, getLoanHistory(cardno))
+            pass
+        elif operation == "getReserveBook":
+            readerno = postData.get("cardno")
+            self.sendSuccess(handler, getReserveBookAll(readerno))
+        elif operation == "logout":
+            pass
 
     def setUpCookieAndOpener(self):
         self.cookie = cookielib.CookieJar()
@@ -221,29 +280,40 @@ class UserInfoDef:
 
     def login(self):
         postData = {"username":self.account, "password": self.pwdMd5}
+        if self.post_base(szLibLogin, postData, headers=headersForReqHtml):
+            self.hasLogin = True
+        else:
+            self.mlog("login failed")
+
+    def post_base(self, url,  postData, headers):
         try:
-            req = requests.post(szLibLogin, data=postData, headers=headersForReqHtml)
+            req = requests.post(szLibLogin, data=postData, headers=headers)
             if (req.status_code == 200):
                 self.cookie = req.cookie
-                self.hasLogin = True
                 return True
         except ConnectionError, e:
-            self.mlog("login, failed to connet to server")
+            self.mlog("failed to connet to server")
         except Timeout, e:
-            self.mlog("login, time out")
+            self.mlog("time out")
         except HTTPError, e:
-            self.mlog("login, response status is not 200: %s" % self.status_code)
+            self.mlog("response status is not 200: %s" % self.status_code)
         except request.exception.RequestException, e:
-            self.mlog("login, unknow error:" + str(e))
+            self.mlog("unknow error:" + str(e))
         return False
 
-    def fetchLoanList(self):
-        urlParam = {"readerno":self.getReaderno()}
-        req = request.get(getLoanListUrl, params=urlParam)
-        print req.text
-        pass
+    def fetchLoanList(self, handler):
+        recordno = getValFromCookie(self.cookie, "recordno")
+        loadUrl = URL_NEW_LOANLIST % (recordno)
+        req = requests.get(loadUrl)
+        infoList = json.loads(req.text)
+        #self.mlog(infoList)
+        loanlist = [item["meta"] for item in infoList if item.get("meta") is not None]
+        loanJson = json.dumps(loanlist)
+        self.sendSuccess(handler, loanJson)
+        self.mlog(loanJson)
 
     def renewBook(self, loanInfo):
+
         pass
 
 if __name__ == "__main__":

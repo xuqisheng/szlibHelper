@@ -1,4 +1,6 @@
 // pages/mine/mine.js
+var util = require('../../utils/util.js')
+var app = getApp()
 Page({
   data:{
     list: [
@@ -39,13 +41,14 @@ Page({
   },
   kindTapMineItem: function (e) {
     console.log(e);
-    var id = e.currentTarget.id, list = this.data.list;
     var index = e.currentTarget.dataset.index;
+    var id = this.data.list[index].id;
+    console.log("index: " + index + ", id: " + id);
     if (id=='logout') {
       wx.reLaunch({
-        url: list[index].page,
+        url: this.data.list[index].page,
       });
-    } else if (id== 'finance' || id == 'libary_info') {
+    } else if (id == 'finance' || id == 'libary_info') {
       wx.navigateTo({
         url: "info/generalInfo?page=" + id,
         fail: function(res) {
@@ -61,13 +64,16 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     // get reader info
     wx.request({
-      url: 'https://www.jiangfuqiang.cn/szlib/readerinfo.jsp',
+      url: 'https://www.jiangfuqiang.cn',
+      method: 'POST',
       data: {
         username: app.globalData.account,
         password: app.globalData.passwdMd5,
         operation: "getReaderInfo"
       },
-      method: 'POST',
+      header: {
+          'content-type': 'application/x-www-form-urlencoded'
+      },
       success: function(res){
         // success
         console.log(res.data);
