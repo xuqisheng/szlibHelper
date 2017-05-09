@@ -48,6 +48,14 @@ function fetchSzlibCover(object) {
     });
 }
 
+function getReturnDate(returnDateNum) {
+  var dateStr = "" + returnDateNum;
+  var year = dateStr.substr(0,4);
+  var month = dateStr.substr(4,2);
+  var day = dateStr.substr(6, 2);
+  return year + '-' + month + '-' + day
+}
+
 function getRemainDays(returnDateNum) {
   var dateStr = "" + returnDateNum;
   var month = "" + dateStr.substr(4,2)-1;

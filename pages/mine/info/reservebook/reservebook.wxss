@@ -1,18 +1,4 @@
 /* pages/mine/info/reservebook/reservebook.wxss */
-/* pages/loanInfo/loanInfo.wxss */
-
-.promot-show {
-  display: block;
-}
-.promot-hide{
-  display: none;
-}
-.promot-text{
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
-  font-size: 20px;
-}
 
 .table {
   border-bottom: 1px solid lightgray;
@@ -38,17 +24,19 @@
   align-items:flex-start;
   align-self:flex-start;
 }
+
 .t_title {
-  font-size: 20px;
-  font-weight: bold;
-}
-.t_callno {
-  padding-top: 5px;
-  font-size: 14px;
-}
-.t_notice {
-  padding-top: 3px;
   font-size: 14px;
   font-weight: bold;
-  color: blue;
 }
+
+.t_attrval {
+  font-size: 10px;
+  font-color: bule;
+}
+
+.t_attrname {
+  font-size: 10px;
+  font-color: lightgray;
+}
+

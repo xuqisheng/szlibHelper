@@ -15,10 +15,14 @@
             </view>
             <view class="t_info">
                 <view class="t_title">{{item.title}}</view>
-                <view class="t_status">{{item.status}}</view>
-                <view class="t_regdate">{{item.regdate}}</view>
-                <view class="t_deadline">{{item.deadline}}</view>
-                <view class="t_loanaddr">{{item.loanaddr}}</view>
+                <view class="t_status t_attrval">
+                    <text class="t_attrname">预借状态：</text>{{item.status}}</view>
+                <view class="t_regdate t_attrval">
+                    <text class="t_attrname">登记日期：</text>{{item.regdate}}</view>
+                <view class="t_deadline t_attrval">
+                    <text class="t_attrname">最迟取书日期：</text>{{item.deadline}}</view>
+                <view class="t_loanaddr t_attrval">
+                    <text class="t_attrname">取书地点：</text>{{item.loanaddr}}</view>
             </view>
         </view>
     </block>

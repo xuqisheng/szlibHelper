@@ -1,2 +1,28 @@
 <!--pages/mine/info/historybooked/historybooked.wxml-->
 <text>pages/mine/info/historybooked/historybooked.wxml</text>
+
+<view class="table">
+    <view class="tr bg-w">
+        <view class="th-bn">书名</view>
+        <view class="th">借出日期</view>
+        <view class="th">还回日期</view>
+        <view class="th">操作</view>
+    </view>
+    <block wx:for="{{loanList}}" wx:key="barcode">
+        <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+            <view class="td-bn">{{item.title}}</view>
+            <view class="td">{{item.loandate}}</view>
+            <view class="td">{{item.returndate}}</view>
+            <button class="renew_btn" id="{{index}}" bindtap="onTapRenew" disabled="{{item.renew<item.canrenew?false:true}}">续借</button>
+        </view>
+        <view class="tr bg-w" wx:else>
+            <view class="td-bn">{{item.title}}</view>
+            <view class="td">{{item.loandate}}</view>
+            <view class="td">{{item.returndate}}</view>
+            <button class="renew_btn" id="{{index}}" bindtap="onTapRenew" disabled="{{item.renew<item.canrenew?false:true}}">续借</button>
+        </view>
+    </block>
+</view>
+<view class="{{isShowPromot?'promot-show':'promot-hide'}}">
+    <text class="promot-text">无借阅图书</text>
+</view>

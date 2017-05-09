@@ -7,6 +7,7 @@
                 <image src="{{item.img}}"
                     style="height: 120px;"
                     mode="aspectFit"
+                    bindtap="onTapReloadCover"
                     binderror="onCoverLoadError
                     data-err-img="loanList[{{index}}].img"
                     data-index="{{index}}"
@@ -16,13 +17,15 @@
             <view class="t_info">
                 <view class="t_title">{{item.title}}</view>
                 <view class="t_callno">{{item.callno}}</view>
-                <view class="t_notice">还剩：{{item.remainday}}天</view>
+                <view class="t_rtdate">应归还时间：{{item.rtdate}}天</view>
+                <view class="t_notice {{item.remainday>0?'show_view':'hide_view'}}">还剩：{{item.remainday}} 天</view>
+                <view class="t_expired {{item.remainday>0?'hide_view':'show_view'}}">已过期：{{-item.remainday}} 天</view>
             </view>
             <button class="renew_btn" id="{{index}}" bindtap="onTapRenew"
                 disabled="{{item.renew<1?false:true}}">续借</button>
         </view>
     </block>
 </view>
-<view class="{{isShowPromot?'promot-show':'promot-hide'}}">
+<view class="{{loanList.length<=0?'show_view':'hide_view'}}">
     <text class="promot-text">无借阅图书</text>
 </view>

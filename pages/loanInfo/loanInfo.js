@@ -69,6 +69,7 @@ Page({
     var _errObj={};
     _errObj[_errImg]="../../loan_book.png";
     //_errObj[_errImg]=this.data.loanList[index].img;
+    console.log("reset img as: " + _errObj[_errImg]);
 
     console.log( e.detail.errMsg+"----"+ _errObj[_errImg] + "----" +_errImg ); 
     var that = this;
@@ -78,6 +79,8 @@ Page({
       400
     );
   },
+  onTapReloadCover: function(e) {
+  }
   onLoad:function(options){
 
     // 页面初始化 options为页面跳转所带来的参数
@@ -105,6 +108,7 @@ Page({
           that.data.loanList = res.data;
           var currentdate = new Date();
           for (var index=0; index<that.data.loanList.length;index++) {
+            that.data.loanList[index]["rtdate"] = util.getReturnDate(that.data.loanList[index].returndate);
             that.data.loanList[index]["remainday"] = util.getRemainDays(that.data.loanList[index].returndate);
 
             var isbn = that.data.loanList[index].isbn;
