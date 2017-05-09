@@ -33,22 +33,22 @@ Page({
     console.log(options);
     console.log("here is the generalInfo page!");
     var page = options.page;
-    var readerData = app.globalData.readerData;
+    var readerData = app.readerData;
     if (page == "finance") {
       this.data.list = [
         {
           section_name: "default_section",
           data: [{
             name: "总欠款",
-            value: "￥ " + readerData.arrea
+            value: "￥" + readerData.arrea
           },
           {
             name: "总押金",
-            value: "￥ " + readerData.deposit
+            value: "￥" + readerData.deposit
           },
           {
             name: "总预付款",
-            value: "￥ " + readerData.banlance
+            value: "￥" + readerData.banlance
           }]
         }
       ]
@@ -100,8 +100,10 @@ Page({
         }
       ]
     }
+    console.log("current data:")
+    console.log(this.data)
     this.setData({
-      data: this.data
+      list: this.data.list
     })
   },
   onReady:function(){

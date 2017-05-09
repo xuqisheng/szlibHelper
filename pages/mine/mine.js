@@ -8,12 +8,12 @@ Page({
         id: 'historbooked',
         name: '历史借阅',
         open: false,
-        page: '../info/historybooked/historybooked'
+        page: 'info/historybooked/historybooked'
       }, {
         id: 'reservebook',
         name: '我的预借',
         open: false,
-        page: '../reservebook/reservebook'
+        page: 'info/reservebook/reservebook'
       },
       {
         id: 'finance',
@@ -43,10 +43,11 @@ Page({
     console.log(e);
     var index = e.currentTarget.dataset.index;
     var id = this.data.list[index].id;
+    var page = this.data.list[index].page
     console.log("index: " + index + ", id: " + id);
     if (id=='logout') {
       wx.reLaunch({
-        url: this.data.list[index].page,
+        url: page,
       });
     } else if (id == 'finance' || id == 'libary_info') {
       wx.navigateTo({
@@ -55,9 +56,14 @@ Page({
           // fail
         },
       });
-    } else if (id == 'historbooked') {
-    } else if (id == 'reservebook') {
-
+    } else {
+      console.log("be going to: " + page);
+      wx.navigateTo({
+        url: page,
+        fail: function (res) {
+          // fail
+        },
+      });
     }
   },
   onLoad:function(options){
@@ -69,7 +75,8 @@ Page({
       data: {
         username: app.globalData.account,
         password: app.globalData.passwdMd5,
-        operation: "getReaderInfo"
+        operation: "getReaderInfo",
+        cardno: app.globalData.account
       },
       header: {
           'content-type': 'application/x-www-form-urlencoded'

@@ -69,6 +69,7 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             userInfo = gUserDict.get(account)
             if userInfo is None:
                 userInfo = UserInfoDef(account, passwdMd5)
+                gUserDict[account] = userInfo
             userInfo.handleRequest(postData, self)
 
         except IOError:

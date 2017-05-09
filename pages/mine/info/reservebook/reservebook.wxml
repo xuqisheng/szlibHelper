@@ -1,13 +1,14 @@
 <!--pages/mine/info/reservebook/reservebook.wxml-->
+<text>pages/mine/info/reservebook/reservebook.wxml</text>
 <view class="table">
-    <block wx:for="{{loanList}}" wx:key="barcode">
+    <block wx:for="{{list}}" wx:key="barcode">
         <view class="t_tr">
             <view class="t_img">
                 <image src="{{item.img}}"
                     style="height: 120px;"
                     mode="aspectFit"
                     binderror="onCoverLoadError
-                    data-err-img="loanList[{{index}}].img"
+                    data-err-img="list[{{index}}].img"
                     data-index="{{index}}"
                     >
                 </image>

@@ -123,7 +123,7 @@ def getReserveBookAll(readerno):
                'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_preborrow.html'}
     reserveBookUrl = URL_NEW_PREBOOK_ALL % (readerno)
     resp = requests.get(reserveBookUrl, headers=headers)
-    print resp.content
+    print "get reserve book:", resp.content
     return resp.content
 
 class LoanInfoDef:
@@ -166,12 +166,19 @@ class UserInfoDef:
             if self.toLogin(handler):
                 self.sendSuccess(handler, "Login success!")
                 self.hasLogin = True
-                return
-        elif operation == "getLoanList":
-            if self.hasLogin == False:
-                if self.toLogin(handler) == False:
-                    self.sendFailed(handler, 404, "login to szlib failed!")
-                    return
+            else:
+                self.sendFailed(handler, 404, "login failed!")
+                self.hasLogin = False
+            return
+        elif self.hasLogin == False:
+            #if self.toLogin(handler) == False:
+            #    self.sendFailed(handler, 404, "login to szlib failed!")
+            #    return
+            self.mlog("do not has login befor doing operation!")
+            self.sendFailed(handler, 403, "MUST login first!")
+            return
+
+        if operation == "getLoanList":
             # to fetch loan list
             #self.toGetLoanList(handler)
             self.fetchLoanList(handler)
@@ -180,28 +187,23 @@ class UserInfoDef:
             if barcode is None or len(barcode) <= 0:
                 self.sendFailed(handler, 400, "barcode is empty!");
                 return
-            if self.hasLogin == False:
-                if self.toLogin(handler) == False:
-                    self.sendFailed(handler, 404, "login to szlib failed!")
-                    return
             # to renew book
             self.toRenewBook(handler, barcode)
         elif operation == "getReaderInfo":
-            if self.hasLogin == False:
-                self.sendFailed(handler, 403, "MUST login first!");
+            cardno = postData.get("cardno")
+            if cardno is not None:
+                self.sendSuccess(handler, getReaderInfo(cardno))
             else:
-                cardno = postData.get("cardno")
-                if cardno is not None:
-                    self.sendSuccess(handler, getReaderInfo(cardno))
-                else:
-                    self.sendFailed(handler, 404, "cardno is null!");
+                self.sendFailed(handler, 404, "cardno is null!");
         elif operation == "getLoanHistory":
             #cardno = postData.get("cardno")
             #self.sendSuccess(handler, getLoanHistory(cardno))
             pass
         elif operation == "getReserveBook":
-            readerno = postData.get("cardno")
-            self.sendSuccess(handler, getReserveBookAll(readerno))
+            #readerno = postData.get("readerno")
+            recordno = getValFromCookie(self.cookie, "recordno")
+            self.mlog("readerno: %s" % (recordno))
+            self.sendSuccess(handler, getReserveBookAll(recordno))
         elif operation == "logout":
             pass
 

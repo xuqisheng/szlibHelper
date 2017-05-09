@@ -22,7 +22,7 @@ Page({
     console.log(barcodeNum)
     var that = this;
     wx.request({
-      url: "https://www.jiangfuqiang.cn/MyLibrary/readerLoginM.jsp",
+      url: "https://www.jiangfuqiang.cn/szlib/reNewBook.jsp",
       method: "POST",
       data: {
         username: this.data.account,
@@ -87,7 +87,7 @@ Page({
     // 开始拉取已借阅书籍
     var that = this;
     wx.request({
-      url: 'https://www.jiangfuqiang.cn/MyLibrary/readerLoginM.jsp',
+      url: 'https://www.jiangfuqiang.cn/szlib/getLoanList.jsp',
       method: "POST",
       data: {
         username: this.data.account,

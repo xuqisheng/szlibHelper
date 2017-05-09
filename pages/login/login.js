@@ -56,7 +56,7 @@ Page({
     console.log(passwd_md5);
     var that = this;
     wx.request({
-      url: 'https://www.jiangfuqiang.cn',
+      url: 'https://www.jiangfuqiang.cn/szlib/login.jsp',
       method: "POST",
       data: {
         username: this.data.account,
