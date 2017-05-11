@@ -50,12 +50,20 @@ Page({
         url: page,
       });
     } else if (id == 'finance' || id == 'libary_info') {
-      wx.navigateTo({
-        url: "info/generalInfo?page=" + id,
-        fail: function(res) {
-          // fail
-        },
-      });
+      if (app.readerData.lenght > 0) {
+        wx.navigateTo({
+          url: "info/generalInfo?page=" + id,
+          fail: function(res) {
+            // fail
+          },
+        });
+      } else {
+        wx.showToast({
+          title: '拉取信息失败',
+          icon: 'success',
+          duration: 2000
+        });
+      }
     } else {
       console.log("be going to: " + page);
       wx.navigateTo({
@@ -70,7 +78,7 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     // get reader info
     wx.request({
-      url: 'https://www.jiangfuqiang.cn',
+      url: 'https://www.jiangfuqiang.cn/szlib/getReaderInfo.jsp',
       method: 'POST',
       data: {
         username: app.globalData.account,
@@ -89,6 +97,7 @@ Page({
       fail: function(res) {
         // fail
         console.log(res);
+        app.readerData = [];
       }
     })
   },

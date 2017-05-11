@@ -60,16 +60,32 @@ Page({
       }
     });
   },
+  onCoverLoaded: function(e) {
+    var index = e.target.dataset.index;
+    console.log("cover loaded: " + index);
+    console.log(e);
+    this.data.loanList[index]["imgstate"]=1;
+    var keyStr = "loanList[" + index +"].imgstate"
+    var valDict = {};
+    valDict[keyStr] = "1";
+    this.setData(valDict);
+  },
   onCoverLoadError: function(e) {
     console.log(e);
     console.log("What's going on!!!");
 
     var index=e.target.dataset.index;
+    this.data.loanList[index]["imgstate"] = 2;
+    var keyStr = "loanList[" + index + "].imgstate"
+    var valDict = {};
+    valDict[keyStr] = "2";
+    this.setData(valDict);
+
     var _errImg=e.target.dataset.errImg;
     var _errObj={};
     _errObj[_errImg]="../../loan_book.png";
-    //_errObj[_errImg]=this.data.loanList[index].img;
-    console.log("reset img as: " + _errObj[_errImg]);
+    _errObj[_errImg]=this.data.loanList[index].img;
+    //console.log("reset img as: " + _errObj[_errImg]);
 
     console.log( e.detail.errMsg+"----"+ _errObj[_errImg] + "----" +_errImg ); 
     var that = this;
@@ -80,7 +96,21 @@ Page({
     );
   },
   onTapReloadCover: function(e) {
-  }
+    var index = e.target.dataset.index;
+    console.log("tap cover: " + index);
+    console.log(e);
+    console.log(this.data.loanList);
+    if (this.data.loanList[index].imgstate == 2) {
+      // reset img
+      var _errImg = "loanList[" + index + "].img";
+      var _errObj = {};
+      _errObj[_errImg] = this.data.loanList[index].img;
+      //_errObj[_errImg] = "../../loan_book.png";
+      console.log("reset img as: " + _errObj[_errImg]);
+      console.log("----" + _errObj[_errImg] + "----" + _errImg);
+      this.setData(_errObj);
+    }
+  },
   onLoad:function(options){
 
     // 页面初始化 options为页面跳转所带来的参数
@@ -125,10 +155,12 @@ Page({
                   that.setData(_errObj);
                 }, 200*index);
               })(index, isbn);
-              that.data.loanList[index]["img"] = "../../wechat_gray.jpg";
+              //that.data.loanList[index]["img"] = "../../wechat_gray.jpg";
+              that.data.loanList[index]["img"] = "";
             } else {
               that.data.loanList[index]["img"] = "http://202.112.150.126/index.php?client=szlib&isbn="+ isbn +"/cover";
             }
+            that.data.loanList[index]["imgstate"] = 0;
           }
           that.setData({
             loanList: res.data,
@@ -179,7 +211,12 @@ Page({
         }
       },
       fail: function(res) {
-        console.log("Fetch loan list failed" + res.data)
+        console.log("Fetch loan list failed" + res.data);
+        wx.showToast({
+          title: '获取借阅列表失败！',
+          icon: 'success',
+          duration: 2000
+        });
       }
     });
   },

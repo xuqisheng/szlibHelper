@@ -19,7 +19,10 @@ function formatNumber(n) {
 module.exports = {
   formatTime: formatTime,
   fetchSzlibCover: fetchSzlibCover,
-  getRemainDays: getRemainDays
+  getRemainDays: getRemainDays,
+  getReturnDate: getReturnDate,
+  calSelectDateString: calSelectDateString,
+  transDateString: transDateString
 }
 
 function fetchSzlibCover(object) {
@@ -48,6 +51,33 @@ function fetchSzlibCover(object) {
     });
 }
 
+function calSelectDateString(selected) {
+  var begin = new Date();
+  if (selected == 1) {
+    begin.setMonth(begin.getMonth()-3);
+  } else if (selected == 2) {
+    begin.setFullYear(begin.getFullYear()-1);
+  } else if (selected == 3) {
+    begin.setFullYear(begin.getFullYear() - 3);
+  }
+  return [stringFromDate(begin), stringFromDate(new Date())];
+}
+
+function stringFromDate(currentDate) {
+  var month = currentDate.getMonth() + 1;
+  var monthStr = "" + month;
+  if (month<10) {
+    monthStr = "0" + monthStr;
+  }
+  var dateStr = "" + currentDate.getDate()
+  if (currentDate.getDate()<10) {
+    dateStr = "0" + dateStr;
+  }
+  var fin = currentDate.getFullYear() + '-' + monthStr + '-' + dateStr;
+  console.log("fin date str: " + fin);
+  return fin;
+}
+
 function getReturnDate(returnDateNum) {
   var dateStr = "" + returnDateNum;
   var year = dateStr.substr(0,4);
@@ -56,13 +86,17 @@ function getReturnDate(returnDateNum) {
   return year + '-' + month + '-' + day
 }
 
+function transDateString(dateStr) {
+  return dateStr.substr(0, 4) + dateStr.substr(5, 2) + dateStr.substr(8, 2);
+}
+
 function getRemainDays(returnDateNum) {
   var dateStr = "" + returnDateNum;
   var month = "" + dateStr.substr(4,2)-1;
   var returndate = new Date(dateStr.substr(0,4), month, dateStr.substr(6,2));
-  console.log("the fucking return date: " + returndate);
+  //console.log("the return date: " + returndate);
   var currentdate = new Date();
   var days = Math.round((returndate - currentdate)/(1000*60*60*24));
-  console.log("the fucking days: " + days);
+  //console.log("the days: " + days);
   return days;
 }

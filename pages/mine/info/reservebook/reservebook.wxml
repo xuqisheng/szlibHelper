@@ -1,5 +1,4 @@
 <!--pages/mine/info/reservebook/reservebook.wxml-->
-<text>pages/mine/info/reservebook/reservebook.wxml</text>
 <view class="table">
     <block wx:for="{{list}}" wx:key="barcode">
         <view class="t_tr">
@@ -7,7 +6,8 @@
                 <image src="{{item.img}}"
                     style="height: 120px;"
                     mode="aspectFit"
-                    binderror="onCoverLoadError
+                    bindtap="onTapReloadCover"
+                    binderror="onCoverLoadError"
                     data-err-img="list[{{index}}].img"
                     data-index="{{index}}"
                     >
@@ -27,6 +27,6 @@
         </view>
     </block>
 </view>
-<view class="{{isShowPromot?'promot-show':'promot-hide'}}">
+<view class="{{list.length<=0?'show_view':'hide_view'}}">
     <text class="promot-text">无预借图书</text>
 </view>

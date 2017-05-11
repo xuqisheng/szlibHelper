@@ -1,19 +1,22 @@
 /* pages/loanInfo/loanInfo.wxss */
 
-.renew_btn {
-  width: 20%;
-  margin-left: 12px;
-  margin-right: 5px;
+.t_btn_info{
+  width: 22%;
+  margin-left: 0px;
+  margin-right: 6px;
   justify-content: center;
+}
+.renew_btn {
   font-size: 14px;
+  justify-content: center;
+}
+.t_has_renewed {
+  font-size: 11px;
+  margin-top: 3px;
+  text-align: center;
+  color: gray;
 }
 
-.show_view {
-  display: block;
-}
-.hide_view {
-  display: none;
-}
 .promot-text{
   display: flex;
   justify-content: center;
@@ -31,6 +34,7 @@
   border-top: 1px solid lightgray;
 }
 
+
 .t_img {
     width: 25%;
     display: flex;
@@ -44,6 +48,7 @@
   flex-direction: column;
   align-items:flex-start;
   align-self:flex-start;
+  padding-top: 3px;
 }
 .t_title {
   font-size: 20px;
@@ -51,19 +56,27 @@
 }
 .t_callno {
   padding-top: 5px;
+  font-size: 12px;
+}
+
+.t_daynum {
+  color: red;
   font-size: 14px;
 }
 .t_rtdate {
-  padding-top: 3px;
-  font-size: 14px;
+  padding-top: 4px;
+  font-size: 12px;
 }
 .t_notice {
-  padding-top: 3px;
-  font-size: 14px;
+  padding-top: 4px;
+  font-size: 12px;
   font-weight: bold;
   color: blue;
 }
 .t_expired {
+  padding-top: 4px;
+  font-size: 12px;
+  font-weight: bold;
   color: red;
 }
 

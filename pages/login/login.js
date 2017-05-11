@@ -98,6 +98,11 @@ Page({
       },
       failed: function(res) {
         console.log("Login failed" + res.data)
+        wx.showToast({
+          title: '登录失败！',
+          icon: 'success',
+          duration: 2000
+        });
       }
     });
   },

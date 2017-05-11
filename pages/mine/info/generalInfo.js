@@ -4,6 +4,7 @@ var app = getApp()
 Page({
   data:{
     list: [
+      /*
       {
         section_name: "default_section",
         data: [{
@@ -26,6 +27,7 @@ Page({
           value: "有效"
         }]
       }
+      */
     ]
   },
   onLoad:function(options){
@@ -86,15 +88,15 @@ Page({
           },
           {
             name: "无线WiFi服务",
-            value: "开通"
+            value: "已开通"
           },
           {
             name: "统一服务",
-            value: "开通"
+            value: "已开通"
           },
           {
             name: "预借服务",
-            value: "开通"
+            value: "已开通"
           }
           ]
         }

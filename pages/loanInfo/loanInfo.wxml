@@ -8,21 +8,28 @@
                     style="height: 120px;"
                     mode="aspectFit"
                     bindtap="onTapReloadCover"
-                    binderror="onCoverLoadError
+                    binderror="onCoverLoadError"
+                    bindload="onCoverLoaded"
                     data-err-img="loanList[{{index}}].img"
                     data-index="{{index}}"
                     >
                 </image>
+                <view class="t_img_notice {{loanList[index].imgstate==2?'show_view':'hide_view'}}">封面加载失败！</view>
             </view>
             <view class="t_info">
                 <view class="t_title">{{item.title}}</view>
                 <view class="t_callno">{{item.callno}}</view>
-                <view class="t_rtdate">应归还时间：{{item.rtdate}}天</view>
-                <view class="t_notice {{item.remainday>0?'show_view':'hide_view'}}">还剩：{{item.remainday}} 天</view>
-                <view class="t_expired {{item.remainday>0?'hide_view':'show_view'}}">已过期：{{-item.remainday}} 天</view>
+                <view class="t_rtdate">应归还时间：{{item.rtdate}}</view>
+                <view class="t_notice {{item.remainday>0?'show_view':'hide_view'}}">还剩：<text class="t_daynum">{{item.remainday}}</text> 天</view>
+                <view class="t_expired {{item.remainday>0?'hide_view':'show_view'}}">已过期：<text class="t_daynum">{{-item.remainday}}</text> 天</view>
             </view>
-            <button class="renew_btn" id="{{index}}" bindtap="onTapRenew"
+            <view class="t_btn_info">
+              <button class="renew_btn" id="{{index}}"
+                type="{{item.renew<1?'primary':'default'}}"
+                bindtap="onTapRenew"
                 disabled="{{item.renew<1?false:true}}">续借</button>
+              <text class="t_has_renewed {{item.renew<1?'hide_view':'show_view'}}">已续借一次</text>
+            </view>
         </view>
     </block>
 </view>

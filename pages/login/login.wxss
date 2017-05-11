@@ -29,6 +29,7 @@
   width: 26px;
   margin-top: 0rpx;
   margin-left: 24rpx;
+  background-color: #F8F8F8;
 }
 
 .inputer {

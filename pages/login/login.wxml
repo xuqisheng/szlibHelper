@@ -5,7 +5,7 @@
     <view class="account_inputer inputer">
         <input bindinput="bindAccountInput" placeholder="借书证卡号" value="{{account}}" />
     </view>
-    <image class="image_frame" src="/saomiao.jpg" mode="scaleToFill" bindtap="onTapScan"/>
+    <image class="image_frame" src="/saomiao.png" mode="scaleToFill" bindtap="onTapScan"/>
 </view>
 <view class="password_promote mg_left">
 可直接扫描借书证上的条形码

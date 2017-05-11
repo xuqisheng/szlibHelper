@@ -3,7 +3,7 @@
     <block wx:for-items="{{list}}" wx:for-item="section" wx:key="{{section.section_name}}">
         <view class="section_frame">
             <view class="section_gap"></view>
-            <block wx:for-items="{{section.data}}">
+            <block wx:for-items="{{section.data}}" wx:key="{{item.name}}">
                 <view class="line_item {{index < section.data.length - 1 ? 'line_ext_not_end' : ''}}" data-index="{{index}}">
                     <view class="item_frame">
                         <view class="item_name">{{item.name}}</view>

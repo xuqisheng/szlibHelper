@@ -6,6 +6,27 @@ Page({
     list: [
     ]
   },
+  onCoverLoadError: function (e) {
+    console.log(e);
+    console.log("What's going on!!!");
+
+    var index = e.target.dataset.index;
+    var _errImg = e.target.dataset.errImg;
+    var _errObj = {};
+    _errObj[_errImg] = "../../loan_book.png";
+    //_errObj[_errImg]=this.data.loanList[index].img;
+    console.log("reset img as: " + _errObj[_errImg]);
+
+    console.log(e.detail.errMsg + "----" + _errObj[_errImg] + "----" + _errImg);
+    var that = this;
+    setTimeout(function () {
+        that.setData(_errObj);
+      },
+      400
+    );
+  },
+  onTapReloadCover: function (e) {
+  },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     console.log(options);
@@ -25,13 +46,7 @@ Page({
       },
       success: function (res) {
         console.log(res);
-        console.log("reserve book: " + res.data.record);
-        console.log(res.data.record[0])
         that.data.list = res.data.record;
-        console.log("the list: " + that.data.list);
-        that.setData({
-          list: that.data.list
-        })
         for (var index=0; index<that.data.list.length;index++) {
           var isbn = that.data.list[index].isbn;
           if (index > 0) {
@@ -51,10 +66,19 @@ Page({
           } else {
             that.data.list[index]["img"] = "http://202.112.150.126/index.php?client=szlib&isbn="+ isbn +"/cover";
           }
+          that.setData({
+            list: that.data.list
+          })
         }
       },
       fail: function (e) {
         console.log(e);
+        that.data.list = [];
+        wx.showToast({
+          title: '拉取信息失败',
+          icon: 'success',
+          duration: 2000
+        });
       }
     })
   },

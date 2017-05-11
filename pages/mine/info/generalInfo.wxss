@@ -19,10 +19,11 @@
 .section_gap {
     height: 20rpx;
     border-bottom: 1rpx solid #D8D8D8;
+    background-color: #F8F8F8;
 }
 
 .line_item {
-    font-size: 20px;
+    font-size: 14px;
     margin-left: 30rpx;
 }
 
@@ -34,7 +35,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 10rpx 0rpx 10rpx;
+    margin: 18rpx 0rpx 18rpx;
 }
 
 .item_name {
@@ -44,5 +45,5 @@
 
 .item_text {
     text-align: right;
-    padding-right: 14px;
+    padding-right: 10px;
 }

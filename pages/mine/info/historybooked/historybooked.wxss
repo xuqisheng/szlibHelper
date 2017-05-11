@@ -1,1 +1,95 @@
 /* pages/mine/info/historybooked/historybooked.wxss */
+
+.select_promot {
+  margin-top: 10px;
+  margin-left: 8px;
+  font-size: 14px;
+  color: gray;
+}
+.btn_frame {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.checkbox_frame {
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+}
+.line_select_search {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.select_by_hand_area {
+  display: flex;
+  flex-direction: row;
+}
+.date_picker_area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.date_picker_frame {
+  margin-top: 6px;
+  margin-left: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+}
+.date_picker {
+  box-sizing: border-box;
+  border: 1px solid gray;
+  padding: 2px 10px 2px 10px;
+}
+
+.search_btn_frame {
+  margin-left: 60px;
+  margin-right: 10px;
+  align-self: center;
+}
+.search_btn {
+  font-size: 14px;
+}
+
+.table {
+  margin-top: 4px;
+  padding-top: 1px;
+  border-top: 4px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.book_info_frame {
+  padding-left: 10px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  font-size: 12px;
+  border-bottom: 4px solid lightgray;
+}
+.t_title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.t_attrname {
+  padding-top: 4px;
+  font-size: 12px;
+  color: gray;
+}
+.t_attrval {
+  padding-top: 4px;
+  font-size: 12px;
+}
+
+.promot-text{
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  font-size: 20px;
+}

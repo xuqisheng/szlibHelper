@@ -30,13 +30,18 @@
   font-weight: bold;
 }
 
-.t_attrval {
-  font-size: 10px;
-  font-color: bule;
-}
-
 .t_attrname {
-  font-size: 10px;
-  font-color: lightgray;
+  font-size: 12px;
+  color: gray;
+}
+.t_attrval {
+  font-size: 12px;
+  color: blue;
 }
 
+.promot-text{
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  font-size: 20px;
+}
