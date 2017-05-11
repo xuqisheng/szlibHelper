@@ -46,7 +46,7 @@ Page({
     var page = this.data.list[index].page
     console.log("index: " + index + ", id: " + id);
     if (id=='logout') {
-      wx.reLaunch({
+      wx.redirectTo({
         url: page,
       });
     } else if (id == 'finance' || id == 'libary_info') {
