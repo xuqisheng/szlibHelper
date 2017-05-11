@@ -1,5 +1,9 @@
 /* pages/loanInfo/loanInfo.wxss */
 
+.table {
+  border-bottom: 1px solid lightgray;
+}
+
 .t_btn_info{
   width: 22%;
   margin-left: 0px;
@@ -18,14 +22,15 @@
 }
 
 .promot-text{
+  margin-top: 520rpx;
   display: flex;
   justify-content: center;
-  margin-top: 16px;
   font-size: 20px;
 }
-
-.table {
-  border-bottom: 1px solid lightgray;
+.btn_history {
+  margin-top: 18px;
+  width: 170px;
+  font-size: 14px;
 }
 
 .t_tr {
@@ -33,7 +38,6 @@
   align-items: center;
   border-top: 1px solid lightgray;
 }
-
 
 .t_img {
     width: 25%;

@@ -50,18 +50,18 @@ Page({
         url: page,
       });
     } else if (id == 'finance' || id == 'libary_info') {
-      if (app.readerData.lenght > 0) {
-        wx.navigateTo({
-          url: "info/generalInfo?page=" + id,
-          fail: function(res) {
-            // fail
-          },
-        });
-      } else {
+      if (util.isEmptyObject(app.readerData)) {
         wx.showToast({
           title: '拉取信息失败',
           icon: 'success',
           duration: 2000
+        });
+      } else {
+        wx.navigateTo({
+          url: "info/generalInfo?page=" + id,
+          fail: function (res) {
+            // fail
+          },
         });
       }
     } else {
@@ -97,7 +97,7 @@ Page({
       fail: function(res) {
         // fail
         console.log(res);
-        app.readerData = [];
+        app.readerData = {};
       }
     })
   },

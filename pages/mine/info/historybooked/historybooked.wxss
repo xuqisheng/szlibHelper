@@ -7,18 +7,19 @@
   color: gray;
 }
 .btn_frame {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin-top: 10px;
   padding-left: 16px;
   padding-right: 16px;
 }
+.checkbox_group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
 .checkbox_frame {
-  justify-content: center;
-  align-items: center;
   font-size: 13px;
 }
+
 .line_select_search {
   margin-top: 4px;
   display: flex;

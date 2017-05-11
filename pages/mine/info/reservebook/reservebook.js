@@ -4,28 +4,48 @@ var app = getApp()
 Page({
   data:{
     list: [
-    ]
+    ],
+    pagestate: 0,
   },
   onCoverLoadError: function (e) {
     console.log(e);
     console.log("What's going on!!!");
 
     var index = e.target.dataset.index;
+  
+    // update img state
+    this.data.list[index]["imgstate"] = 2;
+    var keyStr = "list[" + index + "].imgstate"
+    var valDict = {};
+    valDict[keyStr] = "2";
+    this.setData(valDict);
+  
+    // reset img source
     var _errImg = e.target.dataset.errImg;
     var _errObj = {};
-    _errObj[_errImg] = "../../loan_book.png";
-    //_errObj[_errImg]=this.data.loanList[index].img;
+    //_errObj[_errImg]="../../loan_book.png";
+    _errObj[_errImg] = "https://www.jiangfuqiang.cn/getSzlibCover/" + this.data.list[index].isbn + ".jpg";
+    this.data.list[index].img;
     console.log("reset img as: " + _errObj[_errImg]);
 
-    console.log(e.detail.errMsg + "----" + _errObj[_errImg] + "----" + _errImg);
-    var that = this;
-    setTimeout(function () {
-        that.setData(_errObj);
-      },
-      400
-    );
+    //console.log( e.detail.errMsg+"----"+ _errObj[_errImg] + "----" +_errImg ); 
+    this.setData(_errObj);
   },
   onTapReloadCover: function (e) {
+    var index = e.target.dataset.index;
+    console.log("tap cover: " + index);
+    console.log(e);
+    console.log(this.data.list);
+    if (this.data.list[index].imgstate == 2) {
+      // reset img
+      var _errImg = "list[" + index + "].img";
+      var _errObj = {};
+      _errObj[_errImg] = this.data.list[index].img;
+      //_errObj[_errImg] = "../../loan_book.png";
+      console.log("reset img as: " + _errObj[_errImg]);
+      console.log("----" + _errObj[_errImg] + "----" + _errImg);
+      this.setData(_errObj);
+    }
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
@@ -46,6 +66,10 @@ Page({
       },
       success: function (res) {
         console.log(res);
+        that.data.pagestate = 1;
+        that.setData({
+          pagestate: 1
+        });
         that.data.list = res.data.record;
         for (var index=0; index<that.data.list.length;index++) {
           var isbn = that.data.list[index].isbn;
@@ -62,10 +86,11 @@ Page({
                 that.setData(_errObj);
               }, 200*index);
             })(index, isbn);
-            that.data.list[index]["img"] = "../../wechat_gray.jpg";
+            that.data.list[index]["img"] = "";
           } else {
             that.data.list[index]["img"] = "http://202.112.150.126/index.php?client=szlib&isbn="+ isbn +"/cover";
           }
+          that.data.list[index]["imgstate"] = 0;
           that.setData({
             list: that.data.list
           })
@@ -73,6 +98,10 @@ Page({
       },
       fail: function (e) {
         console.log(e);
+        that.data.pagestate = 1;
+        that.setData({
+          pagestate: 1
+        });
         that.data.list = [];
         wx.showToast({
           title: '拉取信息失败',

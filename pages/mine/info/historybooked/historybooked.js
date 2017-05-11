@@ -9,8 +9,8 @@ Page({
     allow_start_date: "2015-09-01",
     allow_end_date: "2017-09-01",
     list: [
-
-    ]
+    ],
+    pagestate: 0,
   },
   // 响应单选框变化
   checkboxChange: function (e) {
@@ -71,9 +71,11 @@ Page({
       },
       success: function (res) {
         console.log(res);
+        that.data.pagestate = 1;
         that.data.list = res.data;
         that.setData({
-          list: that.data.list
+          list: that.data.list,
+          pagestate: 1
         });
         if (showSucceedPromot) {
           wx.showToast({
@@ -85,6 +87,10 @@ Page({
       },
       fail: function (e) {
         console.log(e);
+        that.data.pagestate = 1;
+        that.setData({
+          pagestate: 1
+        });
         wx.showToast({
           title: '查询失败',
           icon: 'success',

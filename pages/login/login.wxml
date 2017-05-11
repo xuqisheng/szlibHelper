@@ -21,5 +21,4 @@
         <checkbox class="checkbox_icon" checked="{{isChecked}}"/>保存账号密码
     </label>
 </checkbox-group>
-<button class="login_btn mg_left" type="primary" size="{{primarySize}}"
-    disabled="{{disabled}}" bindtap="onTapLogin">登录</button>
+<button class="login_btn mg_left" type="primary" disabled="{{disabled}}" bindtap="onTapLogin">登录</button>

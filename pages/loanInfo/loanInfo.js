@@ -12,7 +12,7 @@ Page({
       {"title":"02","loandate":"text2","returndate":"type2","canrenew":"0","barcode":"04400611179671"},
       */
     ],
-    isShowPromot: false
+    pagestate: 0,
   },
   onTapRenew: function(e) {
     // 续借某书籍
@@ -83,17 +83,13 @@ Page({
 
     var _errImg=e.target.dataset.errImg;
     var _errObj={};
-    _errObj[_errImg]="../../loan_book.png";
-    _errObj[_errImg]=this.data.loanList[index].img;
-    //console.log("reset img as: " + _errObj[_errImg]);
+    //_errObj[_errImg]="../../loan_book.png";
+    _errObj[_errImg] = "https://www.jiangfuqiang.cn/getSzlibCover/" + this.data.loanList[index].isbn + ".jpg";
+    this.data.loanList[index].img;
+    console.log("reset img as: " + _errObj[_errImg]);
 
-    console.log( e.detail.errMsg+"----"+ _errObj[_errImg] + "----" +_errImg ); 
-    var that = this;
-    setTimeout(function() {
-        that.setData(_errObj);
-      },
-      400
-    );
+    //console.log( e.detail.errMsg+"----"+ _errObj[_errImg] + "----" +_errImg ); 
+    this.setData(_errObj);
   },
   onTapReloadCover: function(e) {
     var index = e.target.dataset.index;
@@ -131,8 +127,11 @@ Page({
           'content-type': 'application/x-www-form-urlencoded'
       },
       success: function(res) {
-        console.log(res.data)
         console.log(res)
+        that.data.pagestate = 1;
+        that.setData({
+          pagestate: 1
+        });
         if (res.statusCode == 200) {
           /* caculate the remain day */
           that.data.loanList = res.data;
@@ -140,7 +139,12 @@ Page({
           for (var index=0; index<that.data.loanList.length;index++) {
             that.data.loanList[index]["rtdate"] = util.getReturnDate(that.data.loanList[index].returndate);
             that.data.loanList[index]["remainday"] = util.getRemainDays(that.data.loanList[index].returndate);
-
+          }
+          // sort loanlist according to remainday
+          that.data.loanList.sort(function(a, b){
+            return (a.remainday > b.remainday);
+          });
+          for (var index = 0; index < that.data.loanList.length; index++) {
             var isbn = that.data.loanList[index].isbn;
             if (index > 0) {
               (function(myIndex, myIsbn) {
@@ -153,9 +157,8 @@ Page({
                   var _errObj={};
                   _errObj[key]= coverUrl;
                   that.setData(_errObj);
-                }, 200*index);
+                }, 100*index);
               })(index, isbn);
-              //that.data.loanList[index]["img"] = "../../wechat_gray.jpg";
               that.data.loanList[index]["img"] = "";
             } else {
               that.data.loanList[index]["img"] = "http://202.112.150.126/index.php?client=szlib&isbn="+ isbn +"/cover";
@@ -163,61 +166,36 @@ Page({
             that.data.loanList[index]["imgstate"] = 0;
           }
           that.setData({
-            loanList: res.data,
-            isShowPromot: false
+            loanList: that.data.loanList
           });
-          if (res.data.length==0) {
-            that.setData({
-              isShowPromot: true
-            });
-          }
-          /*
-          // check local cover file
-          wx.getSavedFileList({
-            success: function(res) {
-              var localFileList = res.filelist;
-              var needDownloadIsbns = new Array();
-              for (var loanItem in res.data) {
-                var isbn = loanItem.isbn;
-                var isFind = false;
-                // find out cover pictures that we do not have download yet
-                for (var fileItem in localFileList) {
-                  filePath = fileItem.filePath
-                }
-                if (isFind == false) {
-                  needDownloadIsbns.push(isbn);
-                }
-              }
-              // then download it!
-              util.fetchSzlibCover({
-                isbn: "978-7-301-18331-1",
-                success: function(coverPath) {
-                  // update UI
-                }
-              })
-            },
-            fail: function(res) {
-              // fetch book cover
-              util.fetchSzlibCover({
-                isbn: "978-7-301-18331-1",
-                success: function(coverPath) {
-                  // update UI
-                  console.log(coverPath)
-                }
-              })
-            }
+        } else {
+          wx.showToast({
+            title: '获取借阅列表失败！',
+            icon: 'success',
+            duration: 2000
           });
-          */
         }
       },
       fail: function(res) {
         console.log("Fetch loan list failed" + res.data);
+        that.data.pagestate = 1;
+        that.setData({
+          pagestate: 1
+        });
         wx.showToast({
           title: '获取借阅列表失败！',
           icon: 'success',
           duration: 2000
         });
       }
+    });
+  },
+  onTapGotoHistory: function() {
+    wx.navigateTo({
+      url: "../mine/info/historybooked/historybooked",
+      fail: function (res) {
+        // fail
+      },
     });
   },
   onReady:function(){

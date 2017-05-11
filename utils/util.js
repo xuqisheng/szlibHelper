@@ -22,8 +22,16 @@ module.exports = {
   getRemainDays: getRemainDays,
   getReturnDate: getReturnDate,
   calSelectDateString: calSelectDateString,
-  transDateString: transDateString
+  transDateString: transDateString,
+  isEmptyObject: isEmptyObject
 }
+
+function isEmptyObject(e) {
+  var t;
+  for (t in e)
+    return !1;
+  return !0
+}  
 
 function fetchSzlibCover(object) {
   // GET http://202.112.150.126/index.php?client=szlib&isbn=978-7-301-18331-1/cover HTTP/1.1

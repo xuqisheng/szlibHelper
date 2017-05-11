@@ -1,7 +1,7 @@
 <!--pages/mine/info/historybooked/historybooked.wxml-->
 <view class="select_promot">选择查询时间范围：</view>
 <view class="btn_frame">
-  <checkbox-group class="checkbox_group mg_left" bindchange="checkboxChange">
+  <checkbox-group class="checkbox_group" bindchange="checkboxChange">
       <label class="checkbox_frame">
           <checkbox class="checkbox_icon" value="1" data-id="1" checked="{{select==1?true:false}}"/>最近三个月
       </label>
@@ -51,6 +51,9 @@
       </view>
     </block>
 </view>
-<view class="{{list.length<=0?'show_view':'hide_view'}}">
+<view class="{{list.length<=0&&pagestate>0?'show_view':'hide_view'}}">
     <text class="promot-text">无借阅图书</text>
+</view>
+<view class="{{pagestate<=0?'show_view':'hide_view'}}">
+    <text class="promot-text">查询中...</text>
 </view>

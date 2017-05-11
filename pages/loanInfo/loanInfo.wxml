@@ -14,7 +14,7 @@
                     data-index="{{index}}"
                     >
                 </image>
-                <view class="t_img_notice {{loanList[index].imgstate==2?'show_view':'hide_view'}}">封面加载失败！</view>
+                <!-- <view class="t_img_notice {{loanList[index].imgstate==2?'show_view':'hide_view'}}">封面加载失败！</view> -->
             </view>
             <view class="t_info">
                 <view class="t_title">{{item.title}}</view>
@@ -33,6 +33,11 @@
         </view>
     </block>
 </view>
-<view class="{{loanList.length<=0?'show_view':'hide_view'}}">
+
+<view class="{{loanList.length<=0&&pagestate>0?'show_view':'hide_view'}}">
     <text class="promot-text">无借阅图书</text>
+    <button class="btn_history" type="primary" bindtap="onTapGotoHistory">点击查看历史借阅</button>
+</view>
+<view class="{{pagestate<=0?'show_view':'hide_view'}}">
+    <text class="promot-text">查询中...</text>
 </view>

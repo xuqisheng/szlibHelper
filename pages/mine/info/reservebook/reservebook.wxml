@@ -27,6 +27,9 @@
         </view>
     </block>
 </view>
-<view class="{{list.length<=0?'show_view':'hide_view'}}">
+<view class="{{list.length<=0&&pagestate>0?'show_view':'hide_view'}}">
     <text class="promot-text">无预借图书</text>
+</view>
+<view class="{{pagestate<=0?'show_view':'hide_view'}}">
+    <text class="promot-text">查询中...</text>
 </view>
