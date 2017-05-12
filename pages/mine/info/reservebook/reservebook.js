@@ -51,6 +51,9 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     console.log(options);
     console.log("Here: reservebook page");
+    wx.setNavigationBarTitle({
+      title: '我的预借'
+    })
     var that = this;
     wx.request({
       url: 'https://www.jiangfuqiang.cn/szlib/getReserveBook.jsp',

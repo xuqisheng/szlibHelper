@@ -45,7 +45,7 @@
     <block wx:for="{{list}}" wx:key="item.title">
       <view class="book_info_frame">
         <view class="t_title">{{item.title}}</view>
-        <view class="t_callno t_attrval">索书号：{{item.callno}}    条形码：{{item.barcode}}</view>
+        <view class="t_callno t_attrval">索书号：{{item.callno}}，条形码：{{item.barcode}}</view>
         <view class="t_loandate t_attrval">借出日期：{{item.date}} {{item.time}}</view>
         <view class="t_loanaddr t_attrval">借出地址：{{item.addr}}</view>
       </view>

@@ -37,6 +37,9 @@ Page({
     var page = options.page;
     var readerData = app.readerData;
     if (page == "finance") {
+      wx.setNavigationBarTitle({
+        title: '我的财经'
+      })
       this.data.list = [
         {
           section_name: "default_section",
@@ -55,6 +58,9 @@ Page({
         }
       ]
     } else if (page == "libary_info") {
+      wx.setNavigationBarTitle({
+        title: '我的读者证'
+      })
       this.data.list = [
         {
           section_name: "sec_card_info",

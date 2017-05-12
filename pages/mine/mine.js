@@ -76,6 +76,9 @@ Page({
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
+    wx.setNavigationBarTitle({
+      title: '深图小助手'
+    })
     // get reader info
     wx.request({
       url: 'https://www.jiangfuqiang.cn/szlib/getReaderInfo.jsp',

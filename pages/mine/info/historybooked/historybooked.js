@@ -104,6 +104,10 @@ Page({
     console.log(options);
     console.log("Here: historybooked page");
 
+    wx.setNavigationBarTitle({
+      title: '历史借阅'
+    })
+
     var calDates = util.calSelectDateString(1);
     this.data.start_date = calDates[0];
     this.data.end_date = calDates[1];

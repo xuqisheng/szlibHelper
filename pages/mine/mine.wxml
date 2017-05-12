@@ -1,7 +1,7 @@
 <!--pages/mine/mine.wxml-->
 <view class="mine_frame">
     <block wx:for-items="{{list}}" wx:key="{{item.id}}">
-        <view class="mine_item" hover="true" bindtap="kindTapMineItem" data-index="{{index}}">
+        <view class="mine_item" bindtap="kindTapMineItem" data-index="{{index}}">
             <view class="mine_item_text" hover="true">{{item.name}}</view>
         </view>
     </block>
