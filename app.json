@@ -20,13 +20,13 @@
     "backgroundColor": "#ffffff",
     "list": [{
       "pagePath": "pages/loanInfo/loanInfo",
-      "iconPath": "loan_book.png",
-      "selectedIconPath": "loan_book.png",
+      "iconPath": "loan_book_gray.png",
+      "selectedIconPath": "loan_book_blue.png",
       "text": "借阅"
     }, {
       "pagePath": "pages/mine/mine",
-      "iconPath": "lib_menu_mine.png",
-      "selectedIconPath": "lib_menu_mine_light.png",
+      "iconPath": "lib_mine_gray.png",
+      "selectedIconPath": "lib_mine_blue.png",
       "text": "我的"
     }
     ]

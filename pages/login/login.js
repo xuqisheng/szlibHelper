@@ -96,13 +96,24 @@ Page({
           });
         }
       },
-      failed: function(res) {
+      fail: function(res) {
         console.log("Login failed" + res.data)
         wx.showToast({
           title: '登录失败！',
           icon: 'success',
           duration: 2000
         });
+        // check whether to store or update account info to storage
+        if (that.data.isChecked) {
+          wx.setStorage({
+            key: "account",
+            data: that.data.account
+          });
+          wx.setStorage({
+            key:"passwd",
+            data: that.data.passwd
+          });
+        }
       }
     });
   },
