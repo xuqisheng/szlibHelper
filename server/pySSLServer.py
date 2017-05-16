@@ -22,7 +22,7 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):  
         print self.path
         if self.path.startswith("/getSzlibCover/"):
-            isbn = self.path.split("/")[2]
+            isbn = self.path.split("/")[2].split('.')[0]
             print "the isbn: %s" % (isbn)
             #req = request.get(getLoanListUrl, params=urlParam)
             #print req.text
@@ -30,6 +30,7 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             print "imgData len: %d" % len(imgData)
             self.send_response(200)
             self.send_header('Content-type', 'image/jpeg')
+            self.end_headers()
             self.wfile.write(imgData)
         else:
             try:  

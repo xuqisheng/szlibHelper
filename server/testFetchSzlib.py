@@ -9,6 +9,7 @@ import requests
 import xml.etree.cElementTree as ET
 import json
 import re
+import math
 
 ## fake as a normal browser
 userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36"
@@ -19,6 +20,7 @@ headersForReqHtml = {"User-Agent": userAgent, "Referer": szLibRefere, "Accept": 
 szLibLogin = "http://www.szlib.org.cn/MyLibrary/readerLoginM.jsp"
 generalGetLoanListUrl = "http://www.szlib.org.cn/MyLibrary/getloanlist.jsp?readerno=%s"
 generalRenewUrl = "http://www.szlib.org.cn/MyLibrary/response.jsp?v_select=%s&"
+generalGetLoanHistoryUrl = "http://www.szlib.org.cn/MyLibrary/LoanHistory.jsp?v_StartDate=%s&v_EndDate=%s&v_ServiceAddr=&CardOrBarcode=cardno&cardno=%s&v_LoanType=Ea&curpage=%d"
 
 # for test
 getLoanListUrl = "http://www.szlib.org.cn/MyLibrary/getloanlist.jsp?readerno=1961683"
@@ -55,6 +57,32 @@ def parseXmlToJsonString(xmlString):
     #print loanlist
     jsonString = json.dumps(loanlist)
     return jsonString
+
+def getHistoryJsonFromXml(xmlString):
+    print xmlString
+    if xmlString is None or len(xmlString) == 0:
+        return "";
+    loanlist = list()
+    root = ET.fromstring(xmlString)
+    # get totalno
+    totalno = 0
+    totalno_lst = root.findall("totalno")
+    if totalno_lst and len(totalno_lst) > 0:
+        totalno = int(totalno_lst[0].text)
+    infolistNodes = root.findall("record")
+    for infolistNode in infolistNodes:
+        bookInfoDict = dict()
+        for node in infolistNode.iter():
+            #print node.tag, node.text
+            if node.text is None:
+                bookInfoDict[node.tag] = ""
+            else:
+                bookInfoDict[node.tag] = node.text
+        loanlist.append(bookInfoDict)
+        #print ""
+    #print loanlist
+    #jsonString = json.dumps(loanlist)
+    return (loanlist, totalno)
 
 def parseReturnDate(xmlString):
     tt = re.findall(".*(20[0-9]{6})", xmlString)
@@ -105,7 +133,7 @@ def getSzlibBookCover(isbn):
     resp = requests.get(coverUrl, headers=headers)
     print resp.request.headers
     print resp.headers
-    print resp.content
+    #print resp.content
     return resp.content
 
 def getReaderInfo(cardno):
@@ -171,12 +199,12 @@ class UserInfoDef:
                 self.hasLogin = False
             return
         elif self.hasLogin == False:
-            #if self.toLogin(handler) == False:
-            #    self.sendFailed(handler, 404, "login to szlib failed!")
-            #    return
-            self.mlog("do not has login befor doing operation!")
-            self.sendFailed(handler, 403, "MUST login first!")
-            return
+            self.mlog("Do not has login befor doing operation!")
+            # try to login
+            if self.toLogin(handler) == False:
+                self.sendFailed(handler, 404, "login to szlib failed!")
+                return
+            # just continue
 
         if operation == "getLoanList":
             # to fetch loan list
@@ -196,9 +224,10 @@ class UserInfoDef:
             else:
                 self.sendFailed(handler, 404, "cardno is null!");
         elif operation == "getLoanHistory":
-            #cardno = postData.get("cardno")
-            #self.sendSuccess(handler, getLoanHistory(cardno))
-            pass
+            cardno = postData.get("cardno")
+            startdate = postData.get("startdate")
+            enddate = postData.get("enddate")
+            self.toGetLoanHistory(handler, cardno, startdate, enddate)
         elif operation == "getReserveBook":
             #readerno = postData.get("readerno")
             recordno = getValFromCookie(self.cookie, "recordno")
@@ -279,6 +308,36 @@ class UserInfoDef:
         else:
             self.sendFailed(handler, 404, "renew %s failed!" % barcode)
             self.mlog("renew failed!")
+
+    def toGetLoanHistory(self, handler, cardno, startDate, endDate):
+        if self.cookie is None:
+            self.sendFailed(handler, 404, "cookie is None!")
+            return
+        loanHistoryUrl = generalGetLoanHistoryUrl % (startDate, endDate, cardno, 1)
+        self.mlog("loanHistoryUrl: %s" % loanHistoryUrl)
+        data = self.getNetwordData(loanHistoryUrl, 8, None, headersForReqHtml)
+        if data == False:
+            self.sendFailed(handler, "404", "fetch loan history failed!")
+        else:
+            loanlist, totalno = getHistoryJsonFromXml(data.strip())
+            self.mlog("get totalno: %d" % (totalno))
+            pages = int(math.ceil(float(totalno) / 20.0))
+            self.mlog("get %d pages" % pages);
+            if pages >= 2:
+                for page in range(2, pages+1):
+                    loanHistoryUrl = generalGetLoanHistoryUrl %\
+                            (startDate, endDate, cardno, page)
+                    self.mlog("loanHistoryUrl: %s" % loanHistoryUrl)
+                    data = self.getNetwordData(loanHistoryUrl, 8, None, headersForReqHtml)
+                    if data == False:
+                        self.mlog("fail in get %d page" % page)
+                        break;
+                    else:
+                        loanlist_p, totalno = getHistoryJsonFromXml(data.strip())
+                        loanlist.extend(loanlist_p)
+            historyJson = json.dumps(loanlist)
+            self.sendSuccess(handler, historyJson)
+            #self.mlog("loan history: %s" % (historyJson))
 
     def login(self):
         postData = {"username":self.account, "password": self.pwdMd5}
