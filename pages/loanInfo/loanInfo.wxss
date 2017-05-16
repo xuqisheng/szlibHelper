@@ -21,6 +21,17 @@
   color: gray;
 }
 
+.t_state_one {
+  margin-top: 8px;
+}
+.t_state_two {
+  margin-top: 3px;
+}
+.t_state {
+  font-size: 12px;
+  text-align: center;
+  color: gray;
+}
 .promot-text{
   margin-top: 520rpx;
   display: flex;
@@ -57,9 +68,10 @@
 .t_title {
   font-size: 20px;
   font-weight: bold;
+  line-height: 96%
 }
 .t_callno {
-  padding-top: 5px;
+  padding-top: 6px;
   font-size: 12px;
 }
 

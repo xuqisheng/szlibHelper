@@ -20,19 +20,22 @@
                 <view class="t_title">{{item.title}}</view>
                 <view class="t_callno">{{item.callno}}</view>
                 <view class="t_rtdate">应归还时间：{{item.rtdate}}</view>
-                <view class="t_notice {{item.remainday>0?'show_view':'hide_view'}}">还剩：<text class="t_daynum">{{item.remainday}}</text> 天</view>
-                <view class="t_expired {{item.remainday>0?'hide_view':'show_view'}}">已过期：<text class="t_daynum">{{-item.remainday}}</text> 天</view>
+                <view class="t_notice {{item.remainday>=0?'show_view':'hide_view'}}">还剩：<text class="t_daynum">{{item.remainday+1}}</text> 天</view>
+                <view class="t_expired {{item.remainday>=0?'hide_view':'show_view'}}">已过期：<text class="t_daynum">{{-item.remainday}}</text> 天</view>
             </view>
             <view class="t_btn_info">
               <button class="renew_btn" id="{{index}}"
-                type="{{item.renew<1?'primary':'default'}}"
+                type="{{item.renew<1&&item.remainday>=0?'primary':'default'}}"
                 bindtap="onTapRenew"
-                disabled="{{item.renew<1?false:true}}">续借</button>
-              <text class="t_has_renewed {{item.renew<1?'hide_view':'show_view'}}">已续借一次</text>
+                disabled="{{item.renew>=1||item.remainday<0?true:false}}">续借</button>
+              <text class="t_has_renewed {{item.renew>=1&&item.remainday>=0?'show_view':'hide_view'}}">已续借一次</text>
+              <text class="t_has_renewed {{item.remainday<0?'show_view':'hide_view'}}">已过期</text>
             </view>
         </view>
     </block>
 </view>
+<text class="t_state t_state_one {{loanList.length>0&&pagestate>0?'show_view':'hide_view'}}">中外文图书借期为31天，到期前可续借1次</text>
+<text class="t_state t_state_two {{loanList.length>0&&pagestate>0?'show_view':'hide_view'}}">借期从续借成功当天算起，仍为31天</text>
 
 <view class="{{loanList.length<=0&&pagestate>0?'show_view':'hide_view'}}">
     <text class="promot-text">无借阅图书</text>

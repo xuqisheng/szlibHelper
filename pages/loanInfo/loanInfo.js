@@ -108,11 +108,13 @@ Page({
     }
   },
   onLoad:function(options){
-
     // 页面初始化 options为页面跳转所带来的参数
     console.log(app.globalData);
     this.data.account = app.globalData.account
     this.data.passwdMd5 = app.globalData.passwdMd5
+    wx.setNavigationBarTitle({
+      title: '深图小助手'
+    })
     // 开始拉取已借阅书籍
     var that = this;
     wx.request({
@@ -133,8 +135,8 @@ Page({
           pagestate: 1
         });
         if (res.statusCode == 200) {
-          /* caculate the remain day */
           that.data.loanList = res.data;
+          /* caculate the remain day */
           var currentdate = new Date();
           for (var index=0; index<that.data.loanList.length;index++) {
             that.data.loanList[index]["rtdate"] = util.getReturnDate(that.data.loanList[index].returndate);
