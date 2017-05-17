@@ -6,7 +6,7 @@ Page({
     start_date: "2015-05-09",
     end_date: "2017-05-09",
     select: 1,
-    allow_start_date: "2015-09-01",
+    allow_start_date: "2000-01-01",
     allow_end_date: "2017-09-01",
     list: [
     ],
@@ -72,16 +72,25 @@ Page({
       success: function (res) {
         console.log(res);
         that.data.pagestate = 1;
-        that.data.list = res.data;
-        that.setData({
-          list: that.data.list,
-          pagestate: 1
-        });
-        if (showSucceedPromot) {
+
+        if (res.statusCode == 200) {
+          that.data.list = res.data;
+          that.setData({
+            list: that.data.list,
+            pagestate: 1
+          });
+          if (showSucceedPromot) {
+            wx.showToast({
+              title: '查询成功',
+              icon: 'success',
+              duration: 1000
+            });
+          }
+        } else {
           wx.showToast({
-            title: '查询成功',
+            title: '查询失败',
             icon: 'success',
-            duration: 1000
+            duration: 2000
           });
         }
       },

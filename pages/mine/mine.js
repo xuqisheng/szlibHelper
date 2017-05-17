@@ -95,7 +95,11 @@ Page({
       success: function(res){
         // success
         console.log(res.data);
-        app.readerData = res.data;
+        if (res.statusCode == 200) {
+          app.readerData = res.data;
+        } else {
+          app.readerData = {};
+        }
       },
       fail: function(res) {
         // fail

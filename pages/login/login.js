@@ -67,42 +67,36 @@ Page({
           'content-type': 'application/x-www-form-urlencoded'
       },
       success: function(res) {
-        console.log(res.data)
         console.log(res)
-        /*
-        var loanUrl = '../loanInfo/loanInfo?account=' + that.data.account + "&passwdMd5=" + passwd_md5;
-        wx.navigateTo({
-          url: loanUrl
-        });*/
-        wx.switchTab({
-          url: "../loanInfo/loanInfo"
-        })
-        // 将通用信息保存在 app 中
-        app.globalData.account = that.data.account;
-        app.globalData.passwdMd5 = passwd_md5;
-        // check whether to store or update account info to storage
-        if (that.data.isChecked) {
-          wx.setStorage({
-            key:"account",
-            data: that.data.account
-          });
-          wx.setStorage({
-            key:"passwd",
-            data: that.data.passwd
-          });
-          wx.setStorage({
-            key:"isChecked",
-            data: that.data.isChecked
+        if (res.statusCode == 200) {
+          wx.switchTab({
+            url: "../loanInfo/loanInfo"
+          })
+        } else {
+          // 提醒失败
+          var message = "登录失败!";
+          if (res.data.message) {
+            message = res.data.message;
+          }
+          wx.showToast({
+            title: message,
+            icon: 'success',
+            duration: 2000
           });
         }
+        // 将通用信息保存在全局 app 中
+        app.globalData.account = that.data.account;
+        app.globalData.passwdMd5 = passwd_md5;
       },
       fail: function(res) {
         console.log("Login failed" + res.data)
         wx.showToast({
-          title: '登录失败！',
+          title: '网络错误！',
           icon: 'success',
           duration: 2000
         });
+      },
+      complete: function(res) {
         // check whether to store or update account info to storage
         if (that.data.isChecked) {
           wx.setStorage({
@@ -110,10 +104,14 @@ Page({
             data: that.data.account
           });
           wx.setStorage({
-            key:"passwd",
+            key: "passwd",
             data: that.data.passwd
           });
         }
+        wx.setStorage({
+          key: "isChecked",
+          data: that.data.isChecked
+        });
       }
     });
   },

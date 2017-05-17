@@ -73,30 +73,38 @@ Page({
         that.setData({
           pagestate: 1
         });
-        that.data.list = res.data.record;
-        for (var index=0; index<that.data.list.length;index++) {
-          var isbn = that.data.list[index].isbn;
-          if (index > 0) {
-            (function(myIndex, myIsbn) {
-              setTimeout(function() {
-                var key = "list[" + myIndex + "].img";
-                var coverUrl = "http://202.112.150.126/index.php?client=szlib&isbn=" + myIsbn +"/cover";
-                var currentTime = new Date();
-                console.log("currentTime: " + currentTime);
-                console.log(key + " : " + coverUrl);
-                var _errObj={};
-                _errObj[key]= coverUrl;
-                that.setData(_errObj);
-              }, 200*index);
-            })(index, isbn);
-            that.data.list[index]["img"] = "";
-          } else {
-            that.data.list[index]["img"] = "http://202.112.150.126/index.php?client=szlib&isbn="+ isbn +"/cover";
+        if (res.statusCode == 200) {
+          that.data.list = res.data.record;
+          for (var index=0; index<that.data.list.length;index++) {
+            var isbn = that.data.list[index].isbn;
+            if (index > 0) {
+              (function(myIndex, myIsbn) {
+                setTimeout(function() {
+                  var key = "list[" + myIndex + "].img";
+                  var coverUrl = "http://202.112.150.126/index.php?client=szlib&isbn=" + myIsbn +"/cover";
+                  var currentTime = new Date();
+                  console.log("currentTime: " + currentTime);
+                  console.log(key + " : " + coverUrl);
+                  var _errObj={};
+                  _errObj[key]= coverUrl;
+                  that.setData(_errObj);
+                }, 200*index);
+              })(index, isbn);
+              that.data.list[index]["img"] = "";
+            } else {
+              that.data.list[index]["img"] = "http://202.112.150.126/index.php?client=szlib&isbn="+ isbn +"/cover";
+            }
+            that.data.list[index]["imgstate"] = 0;
+            that.setData({
+              list: that.data.list
+            })
           }
-          that.data.list[index]["imgstate"] = 0;
-          that.setData({
-            list: that.data.list
-          })
+        } else {
+          wx.showToast({
+            title: '拉取信息失败',
+            icon: 'success',
+            duration: 2000
+          });
         }
       },
       fail: function (e) {

@@ -35,23 +35,32 @@ Page({
       },
       success: function(res) {
         console.log(res.data)
-        console.log(res)
-        that.data.loanList[index].renew = "1";
-        console.log(res.data.returndate)
-        that.data.loanList[index].returndate = res.data.returndate
-        that.setData({
-          loanList: that.data.loanList
-        })
-        console.log(that.data.loanList)
-        // 提示续借成功
-        wx.showToast({
-          title: '续借成功~',
-          icon: 'success',
-          duration: 2000
-        })
+        if (res.statusCode == 200) {
+          that.data.loanList[index].renew = "1";
+          console.log(res.data.returndate)
+          that.data.loanList[index].returndate = res.data.returndate
+          that.setData({
+            loanList: that.data.loanList
+          })
+          console.log(that.data.loanList)
+          // 提示续借成功
+          wx.showToast({
+            title: '续借成功~',
+            icon: 'success',
+            duration: 2000
+          });
+        } else {
+          console.log("reNewBook resp code is not 200: " + res.statusCode);
+          wx.showToast({
+            title: '续借失败~',
+            icon: 'success',
+            duration: 2000
+          });
+        }
       },
       fail: function(res) {
-        console.log("reNewBook failed: " + res.data)
+        console.log(res.data)
+        console.log("reNewBook failed!")
         wx.showToast({
           title: '续借失败！',
           icon: 'success',
@@ -136,16 +145,34 @@ Page({
         });
         if (res.statusCode == 200) {
           that.data.loanList = res.data;
-          /* caculate the remain day */
+          var diableAllRenewBtn = false;
+          /* calculate the remain day */
           var currentdate = new Date();
           for (var index=0; index<that.data.loanList.length;index++) {
             that.data.loanList[index]["rtdate"] = util.getReturnDate(that.data.loanList[index].returndate);
             that.data.loanList[index]["remainday"] = util.getRemainDays(that.data.loanList[index].returndate);
+            if (that.data.loanList[index]["remainday"] < 0) {
+              diableAllRenewBtn = 1;
+            }
           }
           // sort loanlist according to remainday
           that.data.loanList.sort(function(a, b){
             return (a.remainday > b.remainday);
           });
+          // calculate button info
+          for (var index = 0; index < that.data.loanList.length; index++) {
+            var item = that.data.loanList[index];
+            item["disable_btn"] = 1;
+            if (item.remainday < 0) {
+              item["rn_notice"] = "已过期";
+            } else if (item.renew >= 1) {
+              item["rn_notice"] = "已续借一次";
+            } else if (diableAllRenewBtn) {
+              item["rn_notice"] = "有其他未归还图书，无法续借";
+            } else {
+              item["disable_btn"] = 0;
+            }
+          }
           for (var index = 0; index < that.data.loanList.length; index++) {
             var isbn = that.data.loanList[index].isbn;
             if (index > 0) {

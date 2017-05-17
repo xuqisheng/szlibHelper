@@ -25,11 +25,10 @@
             </view>
             <view class="t_btn_info">
               <button class="renew_btn" id="{{index}}"
-                type="{{item.renew<1&&item.remainday>=0?'primary':'default'}}"
+                type="{{item.disable_btn?'default':'primary'}}"
                 bindtap="onTapRenew"
-                disabled="{{item.renew>=1||item.remainday<0?true:false}}">续借</button>
-              <text class="t_has_renewed {{item.renew>=1&&item.remainday>=0?'show_view':'hide_view'}}">已续借一次</text>
-              <text class="t_has_renewed {{item.remainday<0?'show_view':'hide_view'}}">已过期</text>
+                disabled="{{item.disable_btn?true:false}}">续借</button>
+              <text class="t_has_renewed {{item.disable_btn?'show_view':'hide_view'}}">{{item.rn_notice}}</text>
             </view>
         </view>
     </block>
