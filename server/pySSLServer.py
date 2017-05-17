@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*-coding=utf-8-*-
 
+import time
+from threading import Thread
 import socket, os
 import ssl
 import BaseHTTPServer, SimpleHTTPServer
@@ -12,6 +14,21 @@ CERT_PATH = "/home/april/cert/214067218810640.pem"
 KEY_PATH = "/home/april/cert/214067218810640.key"
 
 gUserDict = dict()
+#gBandDict = dict()
+
+def doClean(userDict):
+    for (key, user) in userDict.items():
+        user.lifecount -= 1;
+    for (key, user) in userDict.items():
+        if user.inUsing < 1 and user.lifecount <= 0:
+            userDict.pop(key, None)
+            print "pop user:", user.account
+
+def cleanUserDict(userDict, interval):
+    while(1):
+        print "going to do clean, has %d users" % len(userDict)
+        doClean(userDict)
+        time.sleep(interval);
 
 class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):  
     def setup(self):  
@@ -69,9 +86,13 @@ class MiniProgramHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             # find the user from dictionay
             userInfo = gUserDict.get(account)
             if userInfo is None:
-                userInfo = UserInfoDef(account, passwdMd5)
+                userInfo = UserInfoDef(account)
                 gUserDict[account] = userInfo
+            else:
+                userInfo.lifecount = testFetchSzlib.G_USER_LIFE_COUNT
+            userInfo.inUsing += 1
             userInfo.handleRequest(postData, self)
+            userInfo.inUsing -= 1
 
         except IOError:
             self.send_error(404, 'IOError in server!')
@@ -87,6 +108,12 @@ if __name__ == "__main__":
             keyfile=KEY_PATH,
             certfile=CERT_PATH, server_side=True)
 
+    # timer function to clean userInfoDict
+    cleanThread = Thread(target=cleanUserDict, args = (gUserDict, 60))
+    cleanThread.daemon = True
+    cleanThread.start()
+    print "Clean thread Started!"
+
     httpd.serve_forever()
-    pass
+    print "Server Ended!"
 

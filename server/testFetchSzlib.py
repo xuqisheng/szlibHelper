@@ -34,11 +34,26 @@ URL_NEW_READER_INFO = "http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http:/
 URL_NEW_COVER = "http://202.112.150.126/index.php?client=szlib&isbn=%s/cover"
 URL_NEW_PREBOOK_ALL = "http://www.szlib.org.cn/szlibmobile/proxyBasic.jsp?http://58.60.2.115:8881/SSBusiness/requestmanage/getReserveRequest?readerno=%s&requestStatus=all&recordType=Y&v_page=1"
 
+# general setting
+G_USER_LIFE_COUNT = 8
+G_REQUEST_TIMEOUT = 5
 
 # utils
 def log(logString):
     print logString
     # write to log file
+
+def parseLoginRespXml(xmlString):
+    if xmlString is None or len(xmlString) == 0:
+        return None;
+    infoDict = dict();
+    root = ET.fromstring(xmlString)
+    for node in root:
+        if node.text is None:
+            infoDict[node.tag] = ""
+        else:
+            infoDict[node.tag] = node.text
+    return infoDict
 
 def parseXmlToJsonString(xmlString):
     loanlist = list()
@@ -130,7 +145,7 @@ def getSzlibBookCover(isbn):
                'User-Agent': AGENT_NEW_MOBILE,
                'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_borrow.html'}
     print "Get Cover: %s" % (coverUrl)
-    resp = requests.get(coverUrl, headers=headers)
+    resp = requests.get(coverUrl, headers=headers, timeout=G_REQUEST_TIMEOUT)
     print resp.request.headers
     print resp.headers
     #print resp.content
@@ -141,7 +156,7 @@ def getReaderInfo(cardno):
                'User-Agent': AGENT_NEW_MOBILE,
                'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_info.html'}
     readerInfoUrl = URL_NEW_READER_INFO % (cardno)
-    resp = requests.get(readerInfoUrl, headers=headers)
+    resp = requests.get(readerInfoUrl, headers=headers, timeout=G_REQUEST_TIMEOUT)
     print resp.content
     return resp.content
 
@@ -150,7 +165,7 @@ def getReserveBookAll(readerno):
                'User-Agent': AGENT_NEW_MOBILE,
                'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_preborrow.html'}
     reserveBookUrl = URL_NEW_PREBOOK_ALL % (readerno)
-    resp = requests.get(reserveBookUrl, headers=headers)
+    resp = requests.get(reserveBookUrl, headers=headers, timeout=G_REQUEST_TIMEOUT)
     print "get reserve book:", resp.content
     return resp.content
 
@@ -165,9 +180,9 @@ class LoanInfoDef:
 class UserInfoDef:
     " detail about libary user "
 
-    def __init__(self, accountName, pwdMd5):
+    def __init__(self, accountName):
         self.account = accountName
-        self.pwdMd5 = pwdMd5
+        self.pwdMd5 = ""
         self.hasLogin = False
         self.httpConn = None
         self.cookie = None
@@ -175,12 +190,22 @@ class UserInfoDef:
         # most familiar way: use urlib2
         self.opener = None
 
+        # life count
+        self.lifecount = G_USER_LIFE_COUNT
+        self.inUsing = 0
+        # security
+        self.loginFailedCount = 10
+
     def mlog(self, logStr):
         logRecord = "%s: %s" % (self.account, logStr)
         log(logRecord)
 
     def sendFailed(self, handler, code, content):
-        handler.send_error(code, content)
+        #handler.send_error(code, content)
+        handler.send_response(code) 
+        handler.send_header('Content-type', 'text/html')
+        handler.end_headers()
+        handler.wfile.write(content)
 
     def sendSuccess(self, handler, content):
         handler.send_response(200) 
@@ -190,21 +215,36 @@ class UserInfoDef:
 
     def handleRequest(self, postData, handler):
         operation = postData.get("operation")
+        passwdMd5 = postData.get("password")
+
         if operation is None or operation == "login":
-            if self.toLogin(handler):
-                self.sendSuccess(handler, "Login success!")
+            status, content = self.toLogin(handler, passwdMd5)
+            if status:
+                self.sendSuccess(handler, content)
+                self.pwdMd5 = passwdMd5
                 self.hasLogin = True
             else:
-                self.sendFailed(handler, 404, "login failed!")
+                self.sendFailed(handler, 404, content)
                 self.hasLogin = False
+                self.loginFailedCount -= 1
             return
         elif self.hasLogin == False:
             self.mlog("Do not has login befor doing operation!")
             # try to login
-            if self.toLogin(handler) == False:
-                self.sendFailed(handler, 404, "login to szlib failed!")
+            status, content = self.toLogin(handler, passwdMd5)
+            if status:
+                self.sendFailed(handler, 404, content)
+                self.loginFailedCount -= 1
                 return
+            else:
+                # update password
+                self.pwdMd5 = passwdMd5
+                self.hasLogin = True
             # just continue
+
+        if passwdMd5 != self.pwdMd5:
+            self.sendFailed(handler, 404, "login to szlib failed!")
+            return
 
         if operation == "getLoanList":
             # to fetch loan list
@@ -260,10 +300,18 @@ class UserInfoDef:
             self.mlog("Unexpected error: %s" % str(e))
         return data
 
-    def toLogin(self, handler):
+    def toLogin(self, handler, passwdMd5):
         self.setUpCookieAndOpener();
-        postDataDict = {"username":self.account, "password": self.pwdMd5}
-        return self.getNetwordData(szLibLogin, 5, postDataDict, headersForReqHtml)
+        postDataDict = {"username":self.account, "password": passwdMd5}
+        loginResp = self.getNetwordData(szLibLogin, 5, postDataDict, headersForReqHtml)
+        infoDict = parseLoginRespXml(loginResp.strip())
+        infoJson = json.dumps(infoDict)
+        if infoDict["message"] == "OK": 
+            print infoDict
+            return True, infoJson
+        else:
+            print infoDict["message"]
+            return False, infoJson
 
     def toGetLoanList(self, handler):
         if self.cookie is None:
@@ -300,6 +348,7 @@ class UserInfoDef:
         headersForReqHtml["Referer"] = renewReferer
 
         data = self.getNetwordData(renewUrl, 8, dict(), headersForReqHtml)
+        print data
         if data:
             returnDate = parseReturnDate(data)
             respStr = '{"returndate":"%s"}' % returnDate
@@ -348,7 +397,7 @@ class UserInfoDef:
 
     def post_base(self, url,  postData, headers):
         try:
-            req = requests.post(szLibLogin, data=postData, headers=headers)
+            req = requests.post(szLibLogin, data=postData, headers=headers, timeout=G_REQUEST_TIMEOUT)
             if (req.status_code == 200):
                 self.cookie = req.cookie
                 return True
@@ -365,7 +414,7 @@ class UserInfoDef:
     def fetchLoanList(self, handler):
         recordno = getValFromCookie(self.cookie, "recordno")
         loadUrl = URL_NEW_LOANLIST % (recordno)
-        req = requests.get(loadUrl)
+        req = requests.get(loadUrl, timeout=G_REQUEST_TIMEOUT)
         infoList = json.loads(req.text)
         #self.mlog(infoList)
         loanlist = [item["meta"] for item in infoList if item.get("meta") is not None]
