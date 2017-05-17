@@ -6,7 +6,7 @@ Page({
     list: [
       {
         id: 'historbooked',
-        name: '历史借阅',
+        name: '借阅历史',
         open: false,
         page: 'info/historybooked/historybooked'
       }, {
@@ -77,7 +77,7 @@ Page({
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     wx.setNavigationBarTitle({
-      title: '深图小助手'
+      title: '深圳图书馆小助手'
     })
     // get reader info
     wx.request({

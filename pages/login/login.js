@@ -134,6 +134,9 @@ Page({
     })
   },
   onLoad: function () {
+    wx.setNavigationBarTitle({
+      title: '深圳图书馆小助手'
+    })
     var that = this
     wx.getStorage({
       key: 'account',

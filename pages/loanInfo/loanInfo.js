@@ -122,7 +122,7 @@ Page({
     this.data.account = app.globalData.account
     this.data.passwdMd5 = app.globalData.passwdMd5
     wx.setNavigationBarTitle({
-      title: '深图小助手'
+      title: '深圳图书馆小助手'
     })
     // 开始拉取已借阅书籍
     var that = this;
