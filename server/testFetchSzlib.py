@@ -43,6 +43,17 @@ def log(logString):
     print logString
     # write to log file
 
+def checkLegalISBN(isbn):
+    if isbn is None or len(isbn) <= 0:
+        return False
+    legalSet = set([str(c) for c in range(0, 10)])
+    legalSet.add('-')
+    #print legalSet
+    for c in isbn:
+        if c not in legalSet:
+            return False;
+    return True
+
 def parseLoginRespXml(xmlString):
     if xmlString is None or len(xmlString) == 0:
         return None;
@@ -146,8 +157,8 @@ def getSzlibBookCover(isbn):
                'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_borrow.html'}
     print "Get Cover: %s" % (coverUrl)
     resp = requests.get(coverUrl, headers=headers, timeout=G_REQUEST_TIMEOUT)
-    print resp.request.headers
-    print resp.headers
+    #print "get cover, req  headers:", resp.request.headers
+    #print "get cover, resp headers:", resp.headers
     #print resp.content
     return resp.content
 
@@ -157,7 +168,7 @@ def getReaderInfo(cardno):
                'Referer': 'http://www.szlib.org.cn/szlibmobile/mylibrary/mem_info.html'}
     readerInfoUrl = URL_NEW_READER_INFO % (cardno)
     resp = requests.get(readerInfoUrl, headers=headers, timeout=G_REQUEST_TIMEOUT)
-    print resp.content
+    print "get reader info:", resp.content
     return resp.content
 
 def getReserveBookAll(readerno):
@@ -230,14 +241,17 @@ class UserInfoDef:
             return
         elif self.hasLogin == False:
             self.mlog("Do not has login befor doing operation!")
+            self.mlog("Will relogin!")
             # try to login
             status, content = self.toLogin(handler, passwdMd5)
             if status:
+                self.mlog("relogin failed!")
                 self.sendFailed(handler, 404, content)
                 self.loginFailedCount -= 1
                 return
             else:
                 # update password
+                self.mlog("relogin success!")
                 self.pwdMd5 = passwdMd5
                 self.hasLogin = True
             # just continue
@@ -307,10 +321,10 @@ class UserInfoDef:
         infoDict = parseLoginRespXml(loginResp.strip())
         infoJson = json.dumps(infoDict)
         if infoDict["message"] == "OK": 
-            print infoDict
+            #print "login success, info dict:", infoDict
             return True, infoJson
         else:
-            print infoDict["message"]
+            print "login failed, info dict:", infoDict["message"]
             return False, infoJson
 
     def toGetLoanList(self, handler):
@@ -336,6 +350,7 @@ class UserInfoDef:
             # parse data to json
             jsonString = parseXmlToJsonString(data)
             self.sendSuccess(handler, jsonString)
+            #self.mlog("loan list: %s" % (jsonString))
 
     def toRenewBook(self, handler, barcode):
         if self.cookie is None:
@@ -348,15 +363,16 @@ class UserInfoDef:
         headersForReqHtml["Referer"] = renewReferer
 
         data = self.getNetwordData(renewUrl, 8, dict(), headersForReqHtml)
-        print data
+        print "renew book, resp data", data
         if data:
             returnDate = parseReturnDate(data)
-            respStr = '{"returndate":"%s"}' % returnDate
-            self.sendSuccess(handler, respStr)
-            self.mlog("renew succeed, return: %s" % respStr)
-        else:
-            self.sendFailed(handler, 404, "renew %s failed!" % barcode)
-            self.mlog("renew failed!")
+            if returnDate and len(returnDate) > 0 :
+                respStr = '{"returndate":"%s"}' % returnDate
+                self.sendSuccess(handler, respStr)
+                self.mlog("renew succeed, return: %s" % respStr)
+                return
+        self.sendFailed(handler, 404, "renew %s failed!" % barcode)
+        self.mlog("renew failed!")
 
     def toGetLoanHistory(self, handler, cardno, startDate, endDate):
         if self.cookie is None:
@@ -428,7 +444,6 @@ class UserInfoDef:
 
 if __name__ == "__main__":
 
-    #cookie = setUpCookie()
 
     account = "0440050867306"
     password = "19911213"
@@ -436,13 +451,23 @@ if __name__ == "__main__":
     print "pwd_md5: %s" % (pwd_md5)
     postData = {"username":account, "password": pwd_md5}
 
-    rawHtml = getNetwordData(szLibLogin, 10, postData, headersForReqHtml)
-
-    print "request sent!"
-    print "%s" % rawHtml
+    #cookie = setUpCookie()
+    #rawHtml = getNetwordData(szLibLogin, 10, postData, headersForReqHtml)
+    #print "request sent!"
+    #print "%s" % rawHtml
 
     #bookList = getNetwordData(getLoanListUrl, 10, None, headersForReqHtml)
     #print bookList
-
     #print cookie
+
+    if checkLegalISBN('978-7-121-24674-6'):
+        print "true"
+    else:
+        print "false"
+
+    if checkLegalISBN('978-7哈哈-5130-3913-0'):
+        print "978-7哈哈-5130-3913-0 true"
+    else:
+        print "978-7哈哈-5130-3913-0 false"
+
 
